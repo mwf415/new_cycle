@@ -3,6 +3,8 @@ package cn.onlov.cycle.dao.entities;
 import com.baomidou.mybatisplus.annotation.IdType;
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

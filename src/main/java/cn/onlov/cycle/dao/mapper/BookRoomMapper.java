@@ -2,6 +2,8 @@ package cn.onlov.cycle.dao.mapper;
 
 import cn.onlov.cycle.dao.entities.BookRoom;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>
