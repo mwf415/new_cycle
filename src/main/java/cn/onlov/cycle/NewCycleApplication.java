@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 
-@MapperScan("cn.onlov.cycle.dao")
+@MapperScan("cn.onlov.cycle.dao.mapper")
 public class NewCycleApplication {
 
     public static void main(String[] args) {
