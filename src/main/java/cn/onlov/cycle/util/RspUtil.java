@@ -6,8 +6,8 @@ public class RspUtil {
 
     public static void errMessage(Object obj,String desc){
         try {
-            obj.getClass().getMethod("setRespCode",String.class).invoke(obj,Constant.errorCode);
-            obj.getClass().getMethod("setRespDesc",String.class).invoke(obj,desc);
+            obj.getClass().getMethod("setCode",String.class).invoke(obj,Constant.errorCode);
+            obj.getClass().getMethod("setMsg",String.class).invoke(obj,desc);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -23,8 +23,8 @@ public class RspUtil {
 
     public static void successMessage(Object obj,String desc){
         try {
-            obj.getClass().getMethod("setRespCode",String.class).invoke(obj,Constant.successCode);
-            obj.getClass().getMethod("setRespDesc",String.class).invoke(obj,desc);
+            obj.getClass().getMethod("setCode",String.class).invoke(obj,Constant.successCode);
+            obj.getClass().getMethod("setMsg",String.class).invoke(obj,desc);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

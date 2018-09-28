@@ -6,6 +6,13 @@ import java.util.List;
 
 @Data
 public class RspPage<T> extends  RspBase {
-    private List<T>  data;
+    private T  data;
+    /** 记录总数 */
+    private int               recordsTotal;
 
+    /** 总页数 */
+    private int               total;
+
+    /** 当前页 */
+    private int               pageNo;
 }

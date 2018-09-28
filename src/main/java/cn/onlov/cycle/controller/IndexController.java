@@ -1,12 +1,14 @@
 package cn.onlov.cycle.controller;
 
 
-import cn.onlov.cycle.Vo.BusieessUserVo;
+import cn.onlov.cycle.bo.BusinessUserBo;
+import cn.onlov.cycle.service.BusinessUserService;
+import cn.onlov.cycle.vo.BusieessUserVo;
 import cn.onlov.cycle.dao.entities.BusinessUser;
 import cn.onlov.cycle.dao.interfaces.IBusinessUserService;
 import cn.onlov.cycle.util.RspPage;
 import cn.onlov.cycle.util.RspUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,17 +20,17 @@ import java.util.List;
 public class IndexController {
 
     @Resource
-    private IBusinessUserService iBusinessUserService;
+    private BusinessUserService  businessUserService;
 
     @RequestMapping("/test")
     public String test(){
-        RspPage rspPage = new RspPage();
-        List<BusinessUser> list = new ArrayList<BusinessUser>();
+        BusinessUserBo  bo = new BusinessUserBo();
+        IPage<BusinessUser> businessUserIPage = businessUserService.getBusinessPageUser(bo);
 
-        BusinessUser user = iBusinessUserService.getById(1);
-        list.add(user);
         BusieessUserVo vo = new BusieessUserVo();
-        RspUtil.successMessage(list,"查询成功");
+        vo.setData(businessUserIPage);
+        RspUtil.successMessage(vo,"查询成功");
+
         return vo.toString();
     }
 }
