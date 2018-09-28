@@ -1,0 +1,38 @@
+package cn.onlov.cycle.dao.entities;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author kaifa
+ * @since 2018-09-28
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+public class CycleBaseRoom implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "bser_id", type = IdType.AUTO)
+    private Integer bserId;
+
+    private String baseName;
+
+    private String roomName;
+
+        /**
+     * 2代表2年的轮转，3代表3年的轮转
+     */
+         private String type;
+
+
+}
