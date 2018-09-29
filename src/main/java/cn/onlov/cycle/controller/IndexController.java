@@ -23,14 +23,15 @@ public class IndexController {
     private BusinessUserService  businessUserService;
 
     @RequestMapping("/test")
-    public String test(){
+    public RspPage test(){
         BusinessUserBo  bo = new BusinessUserBo();
+        bo.setPageNo(0);
+        bo.setPageSize(10);
         IPage<BusinessUser> businessUserIPage = businessUserService.getBusinessPageUser(bo);
-
         BusieessUserVo vo = new BusieessUserVo();
         vo.setData(businessUserIPage);
         RspUtil.successMessage(vo,"查询成功");
 
-        return vo.toString();
+        return vo;
     }
 }
