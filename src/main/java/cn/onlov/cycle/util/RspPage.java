@@ -15,4 +15,14 @@ public class RspPage<T> extends  RspBase {
 
     /** 当前页 */
     private int               pageNo;
+
+    /**
+     * 返回编码
+     */
+    private String respCode;
+
+    /**
+     * 返回编码
+     */
+    private String respDesc;
 }
