@@ -20,6 +20,5 @@ public class ReqBase implements Serializable {
     /**
      * 每页的数量
      */
-    private List<Integer> roleIds; // 角色Id
 
 }

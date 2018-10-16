@@ -11,4 +11,5 @@ public class BusinessUserBo extends ReqBase  {
     private Integer grade;
     private Integer status;
 
+
 }

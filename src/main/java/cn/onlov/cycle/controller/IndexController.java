@@ -23,10 +23,11 @@ public class IndexController {
     private BusinessUserService  businessUserService;
 
     @RequestMapping("/test")
-    public RspPage test(){
+    public RspPage test(BusinessUserBo businessUserBo){
         BusinessUserBo  bo = new BusinessUserBo();
-        bo.setPageNo(0);
-        bo.setPageSize(10);
+        bo.setPageNo(businessUserBo.getPageNo());
+        bo.setPageSize(businessUserBo.getPageSize());
+
         IPage<BusinessUser> businessUserIPage = businessUserService.getBusinessPageUser(bo);
         BusieessUserVo vo = new BusieessUserVo();
         vo.setData(businessUserIPage);

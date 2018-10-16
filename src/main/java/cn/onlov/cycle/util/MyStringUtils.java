@@ -11,6 +11,7 @@ public class MyStringUtils  {
 
     }
 
+
     public static boolean isNotEmpty(Integer num) {
         boolean result = false;
         if(null !=num && 0!=num){
