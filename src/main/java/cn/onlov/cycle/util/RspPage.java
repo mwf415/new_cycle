@@ -8,13 +8,13 @@ import java.util.List;
 public class RspPage<T> extends  RspBase {
     private T  data;
     /** 记录总数 */
-    private int              total;
+    private long              total;
 
     /** 总页数 */
-    private int             totalPage  ;
+    private long            totalPage  ;
 
     /** 当前页 */
-    private int          current;
+    private long          current;
 
     /**
      * 返回编码

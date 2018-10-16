@@ -35,12 +35,13 @@ public class RspUtil {
             RspPage rspPage = (RspPage) obj;
             Object data = rspPage.getData();
             if(data instanceof IPage){
-                IPage iPage =(IPage) obj;
-                obj.getClass().getMethod("setTotal",Integer.class).invoke(obj,iPage.getTotal());// 总个数
-
-                obj.getClass().getMethod("setCurrent",Integer.class).invoke(obj,iPage.getCurrent()); // 当前页数
-                Long tatalPage = (iPage.getTotal() / iPage.getSize())+1;
-                obj.getClass().getMethod("setCurrent",Integer.class).invoke(obj,iPage.getCurrent()); // 总页数
+                long total = ((IPage) data).getTotal();
+                obj.getClass().getMethod("setTotal",long.class).invoke(obj,total);// 总个数
+                long current = ((IPage) data).getCurrent();
+                obj.getClass().getMethod("setCurrent",long.class).invoke(obj,current); // 当前页数
+                long size = ((IPage) data).getSize();
+                Long tatalPage = total / size+1;
+                obj.getClass().getMethod("setCurrent",long.class).invoke(obj,tatalPage); // 总页数
 
             }
 
