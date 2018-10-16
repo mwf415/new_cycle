@@ -22,6 +22,8 @@ public class BusinessUserServiceImpl implements BusinessUserService {
     public IPage<BusinessUser> getBusinessPageUser(BusinessUserBo bo) {
         IPage<BusinessUser> page = new Page<>();
         page.setCurrent(bo.getPageNo()).setSize(bo.getPageSize());
+        boolean a = MyStringUtils.isNotEmpty(bo.getBaseId());
+
         IPage<BusinessUser> res = iBusinessUserService.page(page, new QueryWrapper<BusinessUser>().lambda()
                 .like(MyStringUtils.isNotEmpty(bo.getRealName()), BusinessUser :: getRealName , bo.getRealName())
                 .eq(MyStringUtils.isNotEmpty(bo.getBaseId()),BusinessUser :: getBaseId, bo.getBaseId())

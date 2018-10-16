@@ -24,11 +24,9 @@ public class IndexController {
 
     @RequestMapping("/test")
     public RspPage test(BusinessUserBo businessUserBo){
-        BusinessUserBo  bo = new BusinessUserBo();
-        bo.setPageNo(businessUserBo.getPageNo());
-        bo.setPageSize(businessUserBo.getPageSize());
 
-        IPage<BusinessUser> businessUserIPage = businessUserService.getBusinessPageUser(bo);
+
+        IPage<BusinessUser> businessUserIPage = businessUserService.getBusinessPageUser(businessUserBo);
         BusieessUserVo vo = new BusieessUserVo();
         vo.setData(businessUserIPage);
         RspUtil.successMessage(vo,"查询成功");
