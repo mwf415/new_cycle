@@ -21,7 +21,7 @@ public class BusinessUserServiceImpl implements BusinessUserService {
     @Override
     public IPage<BusinessUser> getBusinessPageUser(BusinessUserBo bo) {
         IPage<BusinessUser> page = new Page<>();
-        page.setCurrent(bo.getPageNo()).setSize(bo.getPageSize());
+        page.setCurrent(bo.getCurr()).setSize(bo.getPageSize());
         boolean a = MyStringUtils.isNotEmpty(bo.getBaseId());
 
         IPage<BusinessUser> res = iBusinessUserService.page(page, new QueryWrapper<BusinessUser>().lambda()

@@ -41,7 +41,7 @@ public class RspUtil {
                 obj.getClass().getMethod("setCurrent",long.class).invoke(obj,current); // 当前页数
                 long size = ((IPage) data).getSize();
                 Long tatalPage = total / size+1;
-                obj.getClass().getMethod("setCurrent",long.class).invoke(obj,tatalPage); // 总页数
+                obj.getClass().getMethod("setTotalPage",long.class).invoke(obj,tatalPage); // 总页数
 
             }
 

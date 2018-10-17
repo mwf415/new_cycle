@@ -12,7 +12,7 @@ public class ReqBase implements Serializable {
     private Long userId;
     private Long baseId;
     private Long roomId;
-    private int pageNo = 0;
+    private int curr = 0;
     /**
      * 第几页
      */
