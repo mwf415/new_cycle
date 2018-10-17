@@ -1,14 +1,20 @@
 package cn.onlov.cycle.util;
 
-import cn.onlov.cycle.dao.entities.BusinessUser;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 public class RspUtil {
 
-    public static void errMessage(Object obj, String desc){
+    public static void setResult(Object obj,boolean tag){
+        if(tag){
+           successMessage(obj,"成功");
+        }else {
+            errMessage(obj,"失败");
+        }
+    }
+
+    private static void errMessage(Object obj, String desc){
         try {
             obj.getClass().getMethod("setCode",String.class).invoke(obj,Constant.errorCode);
             obj.getClass().getMethod("setMsg",String.class).invoke(obj,desc);
@@ -22,19 +28,19 @@ public class RspUtil {
         }
     }
 
-    public static void successMessage(Object obj){
+    private static void successMessage(Object obj){
 
         successMessage(obj,"成功");
     }
 
-    public static void successMessage(Object obj, String desc   ){
+    private static void successMessage(Object obj, String desc   ){
         try {
             obj.getClass().getMethod("setCode",String.class).invoke(obj,Constant.successCode);
             obj.getClass().getMethod("setMsg",String.class).invoke(obj,desc);
 
             RspPage rspPage = (RspPage) obj;
             Object data = rspPage.getData();
-            if(data instanceof IPage){
+            if(null!=data && data instanceof IPage){
                 long total = ((IPage) data).getTotal();
                 obj.getClass().getMethod("setTotal",long.class).invoke(obj,total);// 总个数
                 long current = ((IPage) data).getCurrent();
