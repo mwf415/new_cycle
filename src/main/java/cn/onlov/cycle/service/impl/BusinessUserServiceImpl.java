@@ -30,8 +30,6 @@ public class BusinessUserServiceImpl implements BusinessUserService {
                 .eq(MyStringUtils.isNotEmpty(bo.getRoomId()),BusinessUser::getRoomId,bo.getRoomId())
                 .eq(MyStringUtils.isNotEmpty(bo.getGrade()),BusinessUser::getGrade, bo.getGrade())
                 .orderByDesc(BusinessUser::getUserId));
-
-
         return res;
     }
 }
