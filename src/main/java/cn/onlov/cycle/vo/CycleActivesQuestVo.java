@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class CycleActivesQuestVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class CycleActivesQuestVo  extends RspPage {
 }

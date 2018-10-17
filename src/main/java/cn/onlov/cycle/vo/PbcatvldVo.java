@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class PbcatvldVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class PbcatvldVo  extends RspPage {
 }

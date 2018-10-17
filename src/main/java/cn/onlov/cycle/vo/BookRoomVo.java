@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class BookRoomVo  {
+import cn.onlov.cycle.util.RspPage;
+
+public class BookRoomVo  extends RspPage {
 }

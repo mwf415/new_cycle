@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class TestConfigVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class TestConfigVo  extends RspPage {
 }

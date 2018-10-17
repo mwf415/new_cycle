@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class UserTypePurviewVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class UserTypePurviewVo  extends RspPage {
 }

@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class CycleUserRoleVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class CycleUserRoleVo  extends RspPage {
 }

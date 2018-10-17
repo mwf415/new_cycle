@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class PurviewVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class PurviewVo  extends RspPage {
 }

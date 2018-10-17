@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class PlainGxVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class PlainGxVo  extends RspPage {
 }

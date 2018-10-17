@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class CycleMajorVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class CycleMajorVo  extends RspPage {
 }

@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class CycleSelfsumupVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class CycleSelfsumupVo  extends RspPage {
 }

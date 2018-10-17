@@ -1,5 +1,5 @@
 package cn.onlov.cycle.vo;
 
-public  class StudyUserVo {
+public  class StudyUserVo  extends RspPage{
 
         }

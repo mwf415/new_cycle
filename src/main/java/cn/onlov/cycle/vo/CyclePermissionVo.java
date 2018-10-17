@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class CyclePermissionVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class CyclePermissionVo  extends RspPage {
 }

@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class MedicineCategoryVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class MedicineCategoryVo  extends RspPage {
 }

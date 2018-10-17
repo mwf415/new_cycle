@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class ExamSubmitVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class ExamSubmitVo  extends RspPage {
 }

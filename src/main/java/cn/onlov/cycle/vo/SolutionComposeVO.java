@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class SolutionComposeVO {
+import cn.onlov.cycle.util.RspPage;
+
+public class SolutionComposeVO  extends RspPage {
 }

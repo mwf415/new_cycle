@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class CycleWritecaseVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class CycleWritecaseVo  extends RspPage {
 }

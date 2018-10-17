@@ -1,4 +1,4 @@
 package cn.onlov.cycle.vo;
 
-public class CycleBaseRoomVo {
+public class CycleBaseRoomVo  extends RspPage{
 }

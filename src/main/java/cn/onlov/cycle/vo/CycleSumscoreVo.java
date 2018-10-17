@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class CycleSumscoreVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class CycleSumscoreVo  extends RspPage {
 }

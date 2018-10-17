@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class CycleSoapVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class CycleSoapVo  extends RspPage {
 }

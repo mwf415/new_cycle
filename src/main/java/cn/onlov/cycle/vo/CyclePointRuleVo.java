@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class CyclePointRuleVo {
+import cn.onlov.cycle.util.RspPage;
+
+public class CyclePointRuleVo  extends RspPage {
 }
