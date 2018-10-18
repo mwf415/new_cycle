@@ -1,4 +1,6 @@
 package cn.onlov.cycle.vo;
 
-public class CycleArrturnRuleVo  extends RspPage{
+import cn.onlov.cycle.util.RspPage;
+
+public class CycleArrturnRuleVo  extends RspPage {
 }

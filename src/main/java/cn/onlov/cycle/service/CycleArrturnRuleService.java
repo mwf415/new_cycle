@@ -1,7 +1,8 @@
 package cn.onlov.cycle.service;
 
+import cn.onlov.cycle.bo.CycleArrturnRuleBo;
 import cn.onlov.cycle.dao.entities.CycleArrturnRule;
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 /**
  * <p>
@@ -11,6 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author kaifa
  * @since 2018-09-28
  */
-public interface CycleArrturnRuleService extends IService<CycleArrturnRule> {
-
+public interface CycleArrturnRuleService  {
+    public IPage<CycleArrturnRule> getCyclePage(CycleArrturnRuleBo bo) ;
 }
