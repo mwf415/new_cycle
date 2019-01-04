@@ -1,9 +1,9 @@
 package cn.onlov.cycle.service;
 
-import cn.onlov.cycle.dao.entities.CycleCex;
+
+import cn.onlov.cycle.core.dao.entities.CycleCex;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-
-public interface CycleCexService extends IService<CycleCex> {
+public interface CycleCexService {
 
 }

@@ -1,13 +1,13 @@
 package cn.onlov.cycle.controller;
 
 
-import cn.onlov.cycle.bo.BusinessUserBo;
+import cn.onlov.cycle.pojo.bo.UserBo;
 import cn.onlov.cycle.dao.entities.BusinessUser;
 import cn.onlov.cycle.dao.interfaces.IBusinessUserService;
-import cn.onlov.cycle.service.BusinessUserService;
+import cn.onlov.cycle.service.CycleUserService;
 import cn.onlov.cycle.util.RspPage;
 import cn.onlov.cycle.util.RspUtil;
-import cn.onlov.cycle.vo.BusieessUserVo;
+import cn.onlov.cycle.pojo.vo.BusieessUserVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class UserController {
 
     @Resource
-    private BusinessUserService  businessUserService;
+    private CycleUserService cycleUserService;
 
     @Resource
     private IBusinessUserService iBusinessUserService;
@@ -27,12 +27,12 @@ public class UserController {
 
     /**
      * 查询列表分页查询
-     * @param businessUserBo
+     * @param userBo
      * @return
      */
     @RequestMapping("/userList")
-    public RspPage test(BusinessUserBo businessUserBo){
-        IPage<BusinessUser> businessUserIPage = businessUserService.getBusinessPageUser(businessUserBo);
+    public RspPage test(UserBo userBo){
+        IPage<BusinessUser> businessUserIPage = cycleUserService.getBusinessPageUser(userBo);
         BusieessUserVo vo = new BusieessUserVo();
         vo.setData(businessUserIPage);
         RspUtil.setResult(vo,true);
@@ -41,14 +41,14 @@ public class UserController {
 
     /**
      * 更新或者添加
-     * @param businessUserBo
+     * @param userBo
      * @return
      */
     @RequestMapping("/userUpdate")
-    public RspPage userAdd(BusinessUserBo businessUserBo){
+    public RspPage userAdd(UserBo userBo){
         BusieessUserVo vo = new BusieessUserVo();
         BusinessUser businessUser =new BusinessUser() ;
-        BeanUtils.copyProperties(businessUserBo,businessUser);
+        BeanUtils.copyProperties(userBo,businessUser);
         boolean tag = iBusinessUserService.saveOrUpdate(businessUser);
         RspUtil.setResult(vo,tag);
         return vo;
@@ -56,13 +56,13 @@ public class UserController {
 
     /**
      * 删除功能
-     * @param businessUserBo
+     * @param userBo
      * @return
      */
     @RequestMapping("/userDel")
-    public RspPage userDel(BusinessUserBo businessUserBo){
+    public RspPage userDel(UserBo userBo){
         BusieessUserVo vo = new BusieessUserVo();
-        long id = businessUserBo.getUserId();
+        long id = userBo.getUserId();
         boolean tag = iBusinessUserService.removeById(id);
         RspUtil.setResult(vo,tag);
         return vo;

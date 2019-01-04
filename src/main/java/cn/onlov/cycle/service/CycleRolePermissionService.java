@@ -1,9 +1,13 @@
 package cn.onlov.cycle.service;
 
-import cn.onlov.cycle.dao.entities.CycleRolePermission;
-import com.baomidou.mybatisplus.extension.service.IService;
 
+public interface CycleRolePermissionService  {
 
-public interface CycleRolePermissionService extends IService<CycleRolePermission> {
+     void addRolePermission(Integer rid, Integer[] pids);
 
+    /**
+     * discription:当删除资源的时候，同时删除关联数据
+     * @param ids 资源ids
+     */
+    void deleteByPermissionKeys(String[] ids);
 }

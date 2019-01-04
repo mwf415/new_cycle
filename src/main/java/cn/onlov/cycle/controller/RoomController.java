@@ -1,13 +1,13 @@
 package cn.onlov.cycle.controller;
 
 
-import cn.onlov.cycle.bo.CycleRoomBo;
+import cn.onlov.cycle.pojo.bo.CycleRoomBo;
 import cn.onlov.cycle.dao.entities.CycleRoom;
 import cn.onlov.cycle.dao.interfaces.ICycleRoomService;
 import cn.onlov.cycle.util.RspPage;
 import cn.onlov.cycle.util.RspUtil;
-import cn.onlov.cycle.vo.BusieessUserVo;
-import cn.onlov.cycle.vo.CycleRoomVo;
+import cn.onlov.cycle.pojo.vo.BusieessUserVo;
+import cn.onlov.cycle.pojo.vo.CycleRoomVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

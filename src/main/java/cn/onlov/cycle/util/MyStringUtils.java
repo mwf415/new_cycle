@@ -1,5 +1,7 @@
 package cn.onlov.cycle.util;
 
+import java.util.Date;
+
 public class MyStringUtils  {
 
     public static boolean isNotEmpty(String cs) {
@@ -28,6 +30,13 @@ public class MyStringUtils  {
         return result ;
     }
 
+    public static boolean isNotEmpty(Date num) {
+        boolean result =false;
+        if(null !=num ){
+            result= true;
+        }
+        return result ;
+    }
 
 
 

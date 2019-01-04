@@ -1,10 +1,9 @@
 package cn.onlov.cycle.service;
 
 
-import cn.onlov.cycle.dao.entities.CycleActivesUser;
+import cn.onlov.cycle.core.dao.entities.CycleActivesUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-
-public interface CycleActivesUserService extends IService<CycleActivesUser> {
+public interface CycleActivesUserService  {
 
 }

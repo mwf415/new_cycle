@@ -1,8 +1,8 @@
 package cn.onlov.cycle.service.impl;
 
-import cn.onlov.cycle.bo.CycleArrturnRuleBo;
-import cn.onlov.cycle.dao.entities.CycleArrturnRule;
-import cn.onlov.cycle.dao.interfaces.ICycleArrturnRuleService;
+import cn.onlov.cycle.core.dao.entities.CycleArrturnRule;
+import cn.onlov.cycle.core.dao.interfaces.ICycleArrturnRuleService;
+import cn.onlov.cycle.pojo.bo.CycleArrturnRuleBo;
 import cn.onlov.cycle.service.CycleArrturnRuleService;
 import cn.onlov.cycle.util.MyStringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,7 +18,7 @@ public class CycleArrturnRuleServiceImpl implements CycleArrturnRuleService {
     public IPage<CycleArrturnRule> getCyclePage(CycleArrturnRuleBo bo) {
         IPage<CycleArrturnRule> page = new Page<>();
         page.setCurrent(bo.getCurr()).setSize(bo.getPageSize());
-        boolean a = MyStringUtils.isNotEmpty(bo.getArrturnRuleId());
+        boolean a = MyStringUtils.isNotEmpty(bo.getId());
 
         IPage<CycleArrturnRule> res = iCycleArrturnRuleService.page(page, new QueryWrapper<CycleArrturnRule>().lambda()
                 .like(MyStringUtils.isNotEmpty(bo.getBaseName()), CycleArrturnRule :: getBaseName , bo.getBaseName())

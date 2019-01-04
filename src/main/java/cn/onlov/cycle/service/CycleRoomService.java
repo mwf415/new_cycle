@@ -1,9 +1,19 @@
 package cn.onlov.cycle.service;
 
-import cn.onlov.cycle.dao.entities.CycleRoom;
+import cn.onlov.cycle.core.dao.entities.CycleRoom;
+import cn.onlov.cycle.pojo.bo.CycleRoomBo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 
+import java.util.List;
 
-public interface CycleRoomService extends IService<CycleRoom> {
-
+/**
+ * Created by yangqj on 2017/4/25.
+ */
+public interface CycleRoomService {
+	
+	IPage<CycleRoom> selectByPage(CycleRoomBo base);
+	List<CycleRoom> selectAll();
+	void deleteByKey(Integer key);
 }
