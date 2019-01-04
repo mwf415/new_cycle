@@ -32,9 +32,6 @@ public class CycleRoomServiceImpl  implements CycleRoomService {
 		page.setCurrent(bo.getCurr()).setSize(bo.getPageSize());
 		QueryWrapper<CycleRoom> queryWrapper = new QueryWrapper<>();
 		queryWrapper.lambda().like(MyStringUtils.isNotEmpty(bo.getValue()),CycleRoom::getValue,bo.getValue());
-
-
-
 		IPage<CycleRoom> res = iCycleRoomService.page(page, new QueryWrapper<CycleRoom>().lambda().orderByDesc(CycleRoom::getId));
 		return res;
 
@@ -51,8 +48,8 @@ public class CycleRoomServiceImpl  implements CycleRoomService {
 
 	@Override
 	public void deleteByKey(Integer key) {
-		QueryWrapper<CycleRoom> queryWrapper = new QueryWrapper<>();
-		boolean list = iCycleRoomService.remove(queryWrapper.lambda().eq(CycleRoom::getId,key));
+		iCycleRoomService.removeById(key);
+
 	}
 
 

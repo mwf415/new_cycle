@@ -1,73 +1,105 @@
 package cn.onlov.cycle.controller;
 
-
+import cn.onlov.cycle.core.dao.entities.CycleRoom;
+import cn.onlov.cycle.core.dao.interfaces.ICycleRoomService;
 import cn.onlov.cycle.pojo.bo.CycleRoomBo;
-import cn.onlov.cycle.dao.entities.CycleRoom;
-import cn.onlov.cycle.dao.interfaces.ICycleRoomService;
-import cn.onlov.cycle.util.RspPage;
-import cn.onlov.cycle.util.RspUtil;
-import cn.onlov.cycle.pojo.vo.BusieessUserVo;
-import cn.onlov.cycle.pojo.vo.CycleRoomVo;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import cn.onlov.cycle.service.CycleRoomService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import sun.security.x509.IPAddressName;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * Created by yangqj on 2017/4/26.
+ */
 @RestController
+@RequestMapping("/rooms")
 public class RoomController {
-
+    @Resource
+    private CycleRoomService cycleRoomService;
     @Resource
     private ICycleRoomService iCycleRoomService;
+    @RequestMapping
+    public  Map<String,Object> getAll(CycleRoom room, String draw,
+                                      @RequestParam(required = false, defaultValue = "1") int start,
+                                      @RequestParam(required = false, defaultValue = "10") int length){
 
-    /**
-     * 查询列表分页查询
-     * @param
-     * @return
-     */
-    @RequestMapping("/roomList")
-    public RspPage list( CycleRoomBo cycleRoomBo){
-        IPage<CycleRoom> page = new Page<>();
-        List<CycleRoom> list = iCycleRoomService.list(new QueryWrapper<CycleRoom>());
-        BusieessUserVo vo = new BusieessUserVo();
-        vo.setData(list);
-        RspUtil.setResult(vo,true);
-        return vo;
+        Map<String,Object> map = new HashMap<>();
+        CycleRoomBo cycleRoomBo  = new CycleRoomBo();
+        BeanUtils.copyProperties(room,cycleRoomBo);
+        cycleRoomBo.setCurr(start);
+        cycleRoomBo.setPageSize(length);
+        IPage<CycleRoom> pageInfo = cycleRoomService.selectByPage(cycleRoomBo);
+        map.put("draw",draw);
+        map.put("recordsTotal",pageInfo.getTotal());
+        map.put("recordsFiltered",pageInfo.getTotal());
+        map.put("data", pageInfo.getRecords());
+        return map;
     }
 
-    /**
-     * 更新或者添加
-     * @param
-     * @return
-     */
-    @RequestMapping("/roomUpdate")
-    public RspPage saveOrUpdate( CycleRoomBo cycleRoomBo){
-        CycleRoomVo vo = new CycleRoomVo();
-        CycleRoom cycleRoom =new CycleRoom() ;
-        BeanUtils.copyProperties(cycleRoomBo,cycleRoom);
-        boolean tag = iCycleRoomService.saveOrUpdate(cycleRoom);
-        RspUtil.setResult(vo,tag);
-        return vo;
+    @RequestMapping("getAll")
+    public  Map<String,Object> getAll(){
+        Map<String,Object> map = new HashMap<>();
+        boolean success = false;
+        String msg = "获取数据失败！";
+        Object data = null;
+
+        List<CycleRoom> list = null;
+        try {
+            list = cycleRoomService.selectAll();
+            success = true;
+            data = list;
+            msg = "获取数据成功";
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        map.put("success", success);
+        map.put("data", data);
+        map.put("msg", msg);
+        return map;
     }
 
-    /**
-     * 删除功能
-     * @param
-     * @return
-     */
-    @RequestMapping("/roomDel")
-    public RspPage del(CycleRoomBo cycleRoomBo){
-        BusieessUserVo vo = new BusieessUserVo();
-        long id = cycleRoomBo.getId();
-        boolean tag = iCycleRoomService.removeById(id);
-        RspUtil.setResult(vo,tag);
-        return vo;
+    @RequestMapping(value = "/add")
+    public String add(CycleRoom room) {
+        try {
+            iCycleRoomService.save(room);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
+    @RequestMapping(value = "/delete")
+    public String delete(Integer id){
+        try{
+            cycleRoomService.deleteByKey(id);
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+    }
+
+    @RequestMapping(value = "/update")
+    public String update(CycleRoom room) {
+        try {
+            iCycleRoomService.saveOrUpdate(room);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
+    }
 
 
 

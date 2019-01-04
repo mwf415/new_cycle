@@ -1,8 +1,14 @@
 package cn.onlov.cycle.util;
 
+
 import java.util.Date;
 
 public class MyStringUtils  {
+
+    public static void main(String[] args) {
+        String aa ="";
+        MyStringUtils.isNotEmpty(aa);
+    }
 
     public static boolean isNotEmpty(String cs) {
         boolean result = false;

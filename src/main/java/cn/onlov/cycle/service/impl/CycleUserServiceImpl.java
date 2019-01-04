@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @Service
-public class UserServiceImpl implements CycleUserService {
+public class CycleUserServiceImpl implements CycleUserService {
     @Resource
     private IUserService iUserService;
 
