@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>大屏大屏显示</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta content="" name="description"/>
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="/plugins/jquery/jquery-1.9.1.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="/crossbrowserjs/html5shiv.js"></script>
+    <script src="/crossbrowserjs/respond.min.js"></script>
+    <script src="/crossbrowserjs/excanvas.min.js"></script>
+    <![endif]-->
+    <style>
+        *{margin:0;padding:0}
+        #slide{position:absolute;height:100%;width:95%;
+            margin:10px;overflow:hidden;}
+        #slide p{height:34px;line-height:34px;overflow:hidden}
+        #slide span{float:right}
+
+        .mainDiv{
+            border: 2px solid #A9A9A9;
+            margin:6px;
+        }
+    </style>
+
+
+</head>
+<body onload="window.scrollTo(0,document.body.scrollHeight)" >
+<div >
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <h3>
+                <div id="show_time0" style="margin-left:50px;"></div>
+            </h3>
+        </div>
+    </div>
+
+    <div id="slide">
+        <div id="slide1">
+        <#if bigShowRsps?? && bigShowRsps?size gt 0>
+        <#list bigShowRsps as bigShowRsp>
+
+            <div class="mainDiv">
+                <div class="row clearfix">
+                    <div class="col-md-12 column">
+                        <div class="page-header">
+                            <h2>
+                                <strong> ${bigShowRsp.exam.title!}--动态监控</strong>
+                            </h2>
+                        </div>
+                    </div>
+                    <#if bigShowRsp.finishedUser??>
+                    <div class="col-md-12 column">
+                        <div class="alert alert-info alert-dismissable">
+                            <h3>
+                                <strong> 已经考完的学生</strong>
+                            </h3>
+                            <h4>${bigShowRsp.finishedUser!}</h4>
+                        </div>
+                    </div>
+                    </#if>
+
+                    <#if bigShowRsp.inUserList?? && bigShowRsp.inUserList?size gt 0>
+                        <div class="col-md-12 column">
+                            <div class="page-header">
+                                <h3>
+                                    正在考试的学生
+                                </h3>
+                            </div>
+                            <table class="table table-striped table-bordered" style="font-size:17px;" cellspacing="0"
+                                   width="100%">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        学生姓名
+                                    </th>
+                                    <th>
+                                        学生编号
+                                    </th>
+                                    <th>
+                                        分组
+                                    </th>
+                                    <th>
+                                        序号
+                                    </th>
+                                    <th>
+                                        已考站点
+                                    </th>
+                                    <th>
+                                        待考站点
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <#list bigShowRsp.inUserList as inUser>
+                                    <tr>
+                                        <td>${inUser.userName!}</td>
+                                        <td>${inUser.userId!}</td>
+                                        <td>${inUser.groupId!}</td>
+                                        <td>${inUser.sortNo!}</td>
+                                        <td>${inUser.finished!}</td>
+                                        <td>${inUser.unFinished!}</td>
+                                    </tr>
+                                </#list>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </#if>
+                    <#if bigShowRsp.toInUser?? && bigShowRsp.toInUser?size gt 0>
+                        <div class="col-md-12 column">
+                            <div class="alert alert-warning alert-dismissable">
+                                <h3>
+                                    <strong>候考的学生</strong>
+                                </h3>
+                                <table class="table table-striped table-bordered" style="font-size:17px;"
+                                       cellspacing="0"
+                                       width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            组号
+                                        </th>
+                                        <th>
+                                            姓名
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <#list bigShowRsp.toInUser as toUser>
+                                        <tr>
+                                            <td>第${toUser.groupId!}组</td>
+                                            <td>${toUser.userList!}</td>
+                                        </tr>
+                                    </#list>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </#if>
+                    <#if bigShowRsp.outUserList??>
+                    <div class="col-md-12 column">
+                        <div class="alert alert-danger alert-dismissable">
+                            <h3>
+                                <strong> 未报到学生</strong>
+                            </h3>
+                            <p>
+                            <h4>${bigShowRsp.outUserList!}</h4></p>
+                        </div>
+                    </div>
+                    </#if>
+                </div>
+
+            </div>
+        </#list>
+    </#if>
+</div>
+        <div id=slide2></div>
+    </div>
+
+
+</div>
+</body>
+
+<script type="text/javascript">
+
+    var myVar = setInterval(
+        function () {
+            refrestView()
+        }, 30000
+    );
+
+    function refrestView() {
+        window.location.reload();
+    }
+    setInterval("show_time0.innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());", 1000);
+</script>
+
+<script>
+    var speed=20;
+    var slide=document.getElementById("slide");
+    var slide2=document.getElementById("slide2");
+    var slide1=document.getElementById("slide1");
+    slide2.innerHTML=slide1.innerHTML;
+    function Marquee(){
+        if(slide2.offsetTop-slide.scrollTop<=0){
+            slide.scrollTop-=slide1.offsetHeight;
+        } else{
+            slide.scrollTop++ ;
+        }
+    }
+    var MyMar=setInterval(Marquee,speed)
+    slide.onmouseover=function(){clearInterval(MyMar)}
+    slide.onmouseout=function(){MyMar=setInterval(Marquee,speed)}
+
+</script>
+</html>
