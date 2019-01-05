@@ -1,10 +1,15 @@
 package cn.onlov.cycle.controller;
 
+import cn.onlov.cycle.core.dao.entities.User;
+import cn.onlov.cycle.core.dao.interfaces.IUserService;
+import cn.onlov.cycle.pojo.bo.CycleRoomBo;
+import cn.onlov.cycle.pojo.bo.UserBo;
+import cn.onlov.cycle.service.CycleUserRoleService;
+import cn.onlov.cycle.service.CycleUserService;
+import cn.onlov.cycle.util.PasswordHelper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.pagehelper.PageInfo;
-import com.youyicn.model.User;
-import com.youyicn.service.UserRoleService;
-import com.youyicn.service.UserService;
-import com.youyicn.util.PasswordHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,20 +27,28 @@ import java.util.Map;
 @RequestMapping("/users")
 public class UserController {
     @Resource
-    private UserService userService;
+    private CycleUserService userService;
     @Resource
-    private UserRoleService userRoleService;
+    private IUserService iUserService;
+
+    @Resource
+    private CycleUserRoleService userRoleService;
 
     @RequestMapping
     public Map<String,Object> getAll(User user, String draw,
                                      @RequestParam(required = false, defaultValue = "1") int start,
                                      @RequestParam(required = false, defaultValue = "10") int length){
         Map<String,Object> map = new HashMap<>();
-        PageInfo<User> pageInfo = userService.selectByPage(user, start, length);
+        UserBo bo  = new UserBo();
+        BeanUtils.copyProperties(user,bo);
+        bo.setCurr(start);
+        bo.setPageSize(length);
+
+        IPage<User> pageInfo = userService.getBusinessPageUser(bo);
         map.put("draw",draw);
         map.put("recordsTotal",pageInfo.getTotal());
         map.put("recordsFiltered",pageInfo.getTotal());
-        map.put("data", pageInfo.getList());
+        map.put("data", pageInfo.getRecords());
         return map;
     }
 
@@ -69,7 +82,7 @@ public class UserController {
             passwordHelper.encryptPassword(user);
             user.setIdentityId(1);
             user.setStatus(1+"");
-            userService.save(user);
+            iUserService.save(user);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,7 +105,7 @@ public class UserController {
     public String batchSave( String[] loginNames , String[] userNums, String[] real_names,
                              String[] user_pwds,
                              String[] baseNames, String[] roomNames,
-                             Integer[] identity_ids, Integer[] grades, Byte[] trainTimes){
+                             Integer[] identity_ids, Integer[] grades, Integer[] trainTimes){
       try{
           List<User>userList = userService.selectByLoginNames(loginNames);
           Map<String,Integer> map = new HashMap<>();
@@ -120,7 +133,7 @@ public class UserController {
              String roomName = roomNames[i];
              Integer identity_id = identity_ids[i];
              Integer grade = grades[i];
-             byte trainTime = trainTimes[i];
+             int trainTime = trainTimes[i];
              User user = new User();
              user.setLoginName(loginName);
               user.setUserNum(userNum);
@@ -131,11 +144,11 @@ public class UserController {
               user.setRoomName(roomName);
               user.setIdentityId(identity_id);
               user.setGrade(grade);
-              user.setTraintime(trainTime);
+              user.setTrainTime(trainTime);
               user.setStatus(1+"");
               PasswordHelper passwordHelper = new PasswordHelper();
               passwordHelper.encryptPassword(user);
-              userService.save(user);
+              iUserService.save(user);
           }
 
           return "success";

@@ -1,6 +1,5 @@
 package cn.onlov.cycle.service;
 
-import cn.onlov.cycle.core.dao.entities.CycleRole;
 import cn.onlov.cycle.core.dao.entities.User;
 import cn.onlov.cycle.pojo.bo.UserBo;
 import com.baomidou.mybatisplus.core.metadata.IPage;

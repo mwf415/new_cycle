@@ -1,42 +1,50 @@
 package cn.onlov.cycle.service.impl;
 
-import com.youyicn.model.UserRole;
+import cn.onlov.cycle.core.dao.entities.CycleRolePermission;
+import cn.onlov.cycle.core.dao.entities.CycleUserRole;
+import cn.onlov.cycle.core.dao.interfaces.ICycleUserRoleService;
+import cn.onlov.cycle.service.CyclePermissionService;
+import cn.onlov.cycle.service.CycleUserRoleService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 
 @Service
 @Transactional
-public class UserRoleServiceImpl extends BaseService<UserRole> implements UserRoleService {
+public class UserRoleServiceImpl implements CycleUserRoleService {
 
     @Resource
-    private PermissionService permissionService;
+    private CyclePermissionService cyclePermissionService;
+
+    @Resource
+    private ICycleUserRoleService iCycleUserRoleService;
 
 
-   @Override
-   @Transactional(propagation= Propagation.REQUIRED,readOnly=false,rollbackFor={Exception.class})
-   public void addUserRole(long userId, Long[] roleIds) {
-       //删除
-       Example example = new Example(UserRole.class);
-       Example.Criteria criteria = example.createCriteria();
-       criteria.andEqualTo("uid", userId);
-       mapper.deleteByExample(example);
-       //添加
-       for (Long roleId : roleIds) {
-           UserRole u = new UserRole();
-           u.setUid(userId);
-           u.setRid(roleId);
-           mapper.insertSelective(u);
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = {Exception.class})
+    public void addUserRole(long userId, Long[] roleIds) {
+        QueryWrapper<CycleUserRole> queryWrapper = new QueryWrapper<>();
 
-       }
-       /**
-        * 更新权限
-        */
-       // 权限redis更新
-       permissionService.updateUserPermissionsTree((int)userId);
+        iCycleUserRoleService.remove(queryWrapper.lambda().eq(CycleUserRole::getUid, userId));
 
-   }
+
+        //添加
+        for (Long roleId : roleIds) {
+            CycleUserRole u = new CycleUserRole();
+            u.setUid(userId);
+            u.setRid(roleId);
+            iCycleUserRoleService.saveOrUpdate(u);
+        }
+        /**
+         * 更新权限
+         */
+        // 权限redis更新
+        cyclePermissionService.updateUserCyclePermissionsTree((int) userId);
+
+    }
 }
