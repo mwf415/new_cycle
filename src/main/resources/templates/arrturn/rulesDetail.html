@@ -22,7 +22,7 @@
 	<!-- begin page-header -->
 	<h1 class="page-header">角色管理</h1>
 	<!-- end page-header -->
-	<input type="hidden" id="baseName" value="${baseName}" >
+
 	<!-- begin row -->
 	<div class="row">
 	    <!-- begin col-12 -->
@@ -50,10 +50,10 @@
                             <th>
                                 <input type="checkbox" class="checkall" />
                             </th>
-                            <th>ID</th>
                             <th>基地名称</th>
                             <th>科室名称</th>
                             <th>规培时长</th>
+                            <th>类型</th>
                             <th>排序</th>
                         </tr>
                         </thead>
@@ -68,8 +68,6 @@
 </div>
 <!-- end #content -->
 
-<!--弹框-->
-
 
 <!--添加弹框-->
 <div class="modal fade" id="permissionsModal" tabindex="-1" role="dialog" aria-labelledby="addroleLabel">
@@ -77,41 +75,30 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addroleLabel">添加资源</h4>
+                <h4 class="modal-title" id="addroleLabel">添加规则</h4>
             </div>
             <div class="modal-body">
                 <form id="permissionsForm">
+                    <input type="hidden" id="baseName" value="${baseName}" >
                 	<input type="hidden" class="form-control" name="id" id="id" placeholder="请输入资源名称"/>
                     <div class="form-group">
-                        <label  class="control-label">资源名称:</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="请输入资源名称"/>
-                    </div>
-                    <div class="form-group">
-                        <label  class="control-label">父资源ID:</label>
-                        <input type="text" class="form-control" id="pid" name="pid"  placeholder="请输入父资源ID">
-                    </div>
-                    <div class="form-group">
-                        <label  class="control-label">资源链接:</label>
-                        <input type="text" class="form-control" id="url" name="url"  placeholder="请输入资源链接">
-                    </div>
-                    <div class="form-group">
-                        <label  class="control-label">资源类型:</label>
-                        <select class="form-control" name="type" id="type" >
-                            <option value="1">菜单</option>
-                            <option value="2">按钮</option>
+                        <label  class="control-label">科室:</label>
+                        <select class="form-control" name="roomName" id="roomName" >
+                            <#if rooms?? && rooms?size gt 0>
+                                <option value='' >全部</option>
+                                <#list rooms as room>
+                                    <option value='${room.value}'>${room.value}</option>
+                                </#list>
+                            </#if>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label  class="control-label">系统:</label>
-                        <select class="form-control" name="systemId" id="systemId" >
-                            <option value="1">考试系统</option>
-                            <option value="2">规培系统</option>
-                            <option value="3" selected>osce系统</option>
-                        </select>
+                        <label  class="control-label">培训时长:</label>
+                        <input type="text" class="form-control" name="period" id="period" placeholder="请输入资源名称"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">排序:</label>
-                        <input type="text" class="form-control" id="sort" name="sort"  placeholder="请输入排序">
+                        <input type="text" class="form-control" id="roomSort" name="roomSort"  placeholder="请输入排序">
                     </div>
                 </form>
             </div>
@@ -151,7 +138,7 @@
                     "previous": "上一页",
                     "next": "下一页",
                     "last": "末页"
-                } 
+                }
              },
             ajax : function(data, callback, settings) {
                 //封装请求参数
@@ -159,7 +146,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: 'arrturnRules/getByBaseName',
+                    url: '/arrturnRules/getByBaseName',
                     cache : false,  //禁用缓存
                     data: param,    //传入已封装的参数
                     dataType: "json",
@@ -188,7 +175,6 @@
                     }
                 },
                 { "data": "baseName" },
-                { "data": "education" },
                 { "data": "roomName" },
                 { "data": "period" },
                 { "data": "type" },
@@ -208,34 +194,37 @@
         return param;
     }
 
+    var roomList =[];
+    <#if rooms??>
+    <#list rooms as room>
+    roomList.push("${room.value}")
+    </#list>
+    </#if>
+
      //添加用户
      function addResources() {
-         var url = 'arrturnRules/add';
+         var url = '/arrturnRules/add';
          if($('#id').val() != ''){
-         	url = 'arrturnRules/update';
+         	url = '/arrturnRules/update';
          }
-         var name = $("#name").val();
-         var pid = $("#pid").val();
-         var purl = $("#url").val();
-         var sort = $("#sort").val();
+         var roomName = $("#roomName").val();
+         var period = $("#period").val();
+         var roomSort = $("#roomSort").val();
+         var roomSort = $("#roomSort").val();
 
-         if(name == "" || name == undefined || name == null){
+
+         if(roomName == "" || roomName == undefined || roomName == null){
              return layer.msg('资源名称不能为空', function(){
                  //关闭后的操作
              });
          }
-         if(pid == "" || pid == undefined || pid == null){
+         if(period == "" || period == undefined || period == null){
              return layer.msg('父资源id不能为空', function(){
                  //关闭后的操作
              });
          }
-         if(purl == "" || purl == undefined || purl == null){
+         if(roomSort == "" || roomSort == undefined || roomSort == null){
              return layer.msg('资源链接不能为空', function(){
-                 //关闭后的操作
-             });
-         }
-         if(sort == "" || sort == undefined || sort == null){
-             return layer.msg('资源排序不能为空', function(){
                  //关闭后的操作
              });
          }
@@ -259,48 +248,39 @@
          });
      }
 
+
      function add(){
- 		$('#addroleLabel').text('增加权限');
  		$('#permissionsForm')[0].reset();
  		$('#id').val('');
  		$('#permissionsModal').modal();
  	}
- 	
+
      function update(){
      	var $checkchild = $(".checkchild:checked");
      	var id = $checkchild.val();
-         if ($checkchild.length < 1)
-         {
+         if ($checkchild.length < 1) {
              layer.msg('请选择一条数据');
              return;
          }
-         if ($checkchild.length > 1)
-         {
+         if ($checkchild.length > 1){
              layer.msg('一次只能修改一条数据');
              return;
          }
  		$('#addroleLabel').text('修改资源');
  		var $tr = $checkchild.parents("tr[role='row']");
- 		var name = $tr.children('td:eq(2)').text();
- 		var pid = $tr.children('td:eq(3)').text();
- 		var url = $tr.children('td:eq(4)').text();
- 		var type = $tr.children('td:eq(5)').text().trim();
- 		if(type=='菜单'){
- 			type=1;
- 		}else{
- 			type=2;
- 		}
- 		var sort = $tr.children('td:eq(6)').text();
+ 		var roomName = $tr.children('td:eq(2)').text();
+ 		var period = $tr.children('td:eq(3)').text();
+ 		var roomSort = $tr.children('td:eq(4)').text();
+
  		$('#id').val(id);
- 		$('#name').val(name);
- 		$('#pid').val(pid);
- 		$('#url').val(url);
- 		$('#type').val(type);
- 		$('#sort').val(sort);
+ 		$('#roomName').val(roomName);
+ 		$('#period').val(period);
+ 		$('#roomSort').val(roomSort);
+
  		$('#permissionsModal').modal();
- 		
+
      }
-     
+
      function delById() {
          if ($(".checkchild:checked").length < 1)
          {
@@ -322,7 +302,7 @@
              $.ajax({
                  cache: true,
                  type: "POST",
-                 url:'arrturnRules/delete',
+                 url:'/arrturnRules/delete',
                  data:{ids:ids.join(',')},
                  async: false,
                  success: function(data) {
