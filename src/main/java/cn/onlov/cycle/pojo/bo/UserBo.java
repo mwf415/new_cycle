@@ -12,4 +12,6 @@ public class UserBo extends User implements Serializable {
     private int curr = 0; //当前页数
     private int pageSize = 10;// 每页几行
 
+
+
 }

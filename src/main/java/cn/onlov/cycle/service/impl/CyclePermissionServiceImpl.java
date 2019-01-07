@@ -55,7 +55,7 @@ public class CyclePermissionServiceImpl implements CyclePermissionService {
     @Cacheable(value = "permissions", key = "'all_menu'")
     public List<CyclePermission> queryAllMenu() {
         QueryWrapper<CyclePermission> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(CyclePermission::getSystemId, Constants.SYSTEM_CYCLE_ID).eq(CyclePermission::getType, Constants.MENU_TYPE).orderByDesc(CyclePermission::getId);
+        queryWrapper.lambda().eq(CyclePermission::getSystemId, Constants.SYSTEM_CYCLE_ID).eq(CyclePermission::getType, Constants.MENU_TYPE).orderByAsc(CyclePermission::getId);
         List<CyclePermission> list = iCyclePermissionService.list(queryWrapper);
         return list;
     }
@@ -111,7 +111,7 @@ public class CyclePermissionServiceImpl implements CyclePermissionService {
         List<CyclePermission> list = new ArrayList();
         for (int i = 0; i < results.size(); i++) {
             CyclePermission root = results.get(i);
-            if (rootId == root.getPid()) {
+            if (rootId .equals( root.getPid())) {
                 List<CyclePermission> children = this.getChildren(results, root.getId());
                 if (!children.isEmpty()) {
                     root.setChildren(children);
@@ -120,16 +120,6 @@ public class CyclePermissionServiceImpl implements CyclePermissionService {
             }
         }
         return list;
-    }
-
-    public static void main(String[] args) {
-        Integer rootId = 170;
-        CyclePermission root = new CyclePermission();
-        root.setPid(170);
-
-        if (rootId == root.getPid()) {
-            System.out.println("args = [" + 11111 + "]");
-        }
     }
 
     @Override

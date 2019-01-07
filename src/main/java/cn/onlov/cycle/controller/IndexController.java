@@ -110,9 +110,14 @@ public class IndexController {
     }
 
 
-    @RequestMapping("/applyPage")
+    @RequestMapping("/arrturnRulesPage")
     public String applyPage(){
-        return "apply/applys";
+        return "arrturn/rules";
+    }
+    @RequestMapping(value = "/detail")
+    public String detail(String baseName,Model model){
+         model.addAttribute("baseName",baseName);
+        return "arrturn/rulesDetail";
     }
 
     @RequestMapping("/countPage")

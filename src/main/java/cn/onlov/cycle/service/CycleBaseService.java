@@ -17,5 +17,5 @@ public interface CycleBaseService{
 	List<CycleBase> selectAll();
 	void deleteByKey(Integer key);
 	//根据基地获取轮转科室
-	List<CycleArrturnRule> listArrturnRuleByCycleBaseName(String baseName);
+	List<CycleArrturnRule> listByCycleBaseName(String baseName);
 }

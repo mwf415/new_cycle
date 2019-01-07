@@ -6,5 +6,5 @@ import cn.onlov.cycle.pojo.bo.CycleArrturnRuleBo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 public interface CycleArrturnRuleService  {
-    IPage<CycleArrturnRule> getCyclePage(CycleArrturnRuleBo bo) ;
+    IPage<CycleArrturnRule> selectByPage(CycleArrturnRuleBo bo) ;
 }

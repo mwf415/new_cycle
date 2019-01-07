@@ -27,11 +27,17 @@ public class CycleUserServiceImpl implements CycleUserService {
         IPage<User> page = new Page<>();
         page.setCurrent(bo.getCurr()).setSize(bo.getPageSize());
 
+        System.out.println("getRealName = [" +MyStringUtils.isNotEmpty(bo.getRealName()));
+        System.out.println("getBaseName = [" +MyStringUtils.isNotEmpty(bo.getBaseName()));
+        System.out.println("getRoomName = [" +MyStringUtils.isNotEmpty(bo.getRoomName()));
+        System.out.println("getGrade = [" +MyStringUtils.isNotEmpty(bo.getGrade()));
+
         IPage<User> res = iUserService.page(page, new QueryWrapper<User>().lambda()
                 .like(MyStringUtils.isNotEmpty(bo.getRealName()), User :: getRealName , bo.getRealName())
                 .eq(MyStringUtils.isNotEmpty(bo.getBaseName()),User :: getBaseName, bo.getBaseName())
                 .eq(MyStringUtils.isNotEmpty(bo.getRoomName()),User::getRoomName,bo.getRoomName())
                 .eq(MyStringUtils.isNotEmpty(bo.getGrade()),User::getGrade, bo.getGrade())
+                .eq(MyStringUtils.isNotEmpty(bo.getIdentityId()),User::getIdentityId,bo.getIdentityId())
                 .orderByDesc(User::getId));
         return res;
     }

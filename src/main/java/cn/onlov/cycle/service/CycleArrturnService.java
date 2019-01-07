@@ -10,6 +10,6 @@ import java.util.Date;
  */
 public interface CycleArrturnService {
 	
-	IPage<CycleArrturn> selectByPage(CycleArrturnBo arrturn, Date startTime, Date endTime);
+	IPage<CycleArrturn> selectByPage(CycleArrturnBo arrturn);
 	
 }

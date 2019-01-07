@@ -41,6 +41,7 @@ public class UserController {
         Map<String,Object> map = new HashMap<>();
         UserBo bo  = new UserBo();
         BeanUtils.copyProperties(user,bo);
+        start = start/length;
         bo.setCurr(start);
         bo.setPageSize(length);
 

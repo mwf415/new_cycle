@@ -49,7 +49,7 @@ public class CycleBaseServiceImpl  implements CycleBaseService {
     }
 
     @Override
-    public List<CycleArrturnRule> listArrturnRuleByCycleBaseName(String baseName) {
+    public List<CycleArrturnRule> listByCycleBaseName(String baseName) {
         List<CycleArrturnRule> list = iCycleArrturnRuleService.list(new QueryWrapper<CycleArrturnRule>().lambda().eq(CycleArrturnRule::getBaseName, baseName));
 
         return list;

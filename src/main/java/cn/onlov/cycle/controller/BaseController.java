@@ -117,7 +117,7 @@ public class BaseController {
         Object data = null;
         
         try {
-        	data = cycleBaseService.listArrturnRuleByCycleBaseName(baseName);
+        	data = cycleBaseService.listByCycleBaseName(baseName);
         	success = true;
         	msg = "获取数据成功";
 		} catch (Exception e) {

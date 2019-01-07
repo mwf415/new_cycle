@@ -21,7 +21,7 @@ public class CycleArrturnServiceImpl  implements CycleArrturnService {
 	private ICycleArrturnService iCycleArrturnService;
 
 	@Override
-	public IPage<CycleArrturn> selectByPage(CycleArrturnBo bo, Date startTime, Date endTime) {
+	public IPage<CycleArrturn> selectByPage(CycleArrturnBo bo) {
 
 		IPage<CycleArrturn> page = new Page<>();
 		page.setCurrent(bo.getCurr()).setSize(bo.getPageSize());
@@ -32,8 +32,8 @@ public class CycleArrturnServiceImpl  implements CycleArrturnService {
 		queryWrapper.lambda().eq(MyStringUtils.isNotEmpty(bo.getRoomName()),CycleArrturn::getBasename,bo.getRoomName());
 		queryWrapper.lambda().eq(MyStringUtils.isNotEmpty(bo.getLoginName()),CycleArrturn::getBasename,bo.getLoginName());
 		queryWrapper.lambda().eq(MyStringUtils.isNotEmpty(bo.getRealName()),CycleArrturn::getBasename,bo.getRealName());
-		queryWrapper.lambda().ge(MyStringUtils.isNotEmpty(bo.getEndTime()),CycleArrturn::getEndTime,startTime);
-		queryWrapper.lambda().le(MyStringUtils.isNotEmpty(bo.getEndTime()),CycleArrturn::getStartTime,endTime);
+		queryWrapper.lambda().ge(MyStringUtils.isNotEmpty(bo.getEndTime()),CycleArrturn::getEndTime,bo.getSearchStartTime());
+		queryWrapper.lambda().le(MyStringUtils.isNotEmpty(bo.getEndTime()),CycleArrturn::getStartTime,bo.getSearchEndTime());
 
 
 		IPage<CycleArrturn> res = iCycleArrturnService.page(page, queryWrapper);

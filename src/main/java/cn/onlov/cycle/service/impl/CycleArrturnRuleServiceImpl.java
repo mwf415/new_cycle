@@ -17,10 +17,9 @@ public class CycleArrturnRuleServiceImpl implements CycleArrturnRuleService {
     private ICycleArrturnRuleService iCycleArrturnRuleService;
 
     @Override
-    public IPage<CycleArrturnRule> getCyclePage(CycleArrturnRuleBo bo) {
+    public IPage<CycleArrturnRule> selectByPage(CycleArrturnRuleBo bo) {
         IPage<CycleArrturnRule> page = new Page<>();
         page.setCurrent(bo.getCurr()).setSize(bo.getPageSize());
-        boolean a = MyStringUtils.isNotEmpty(bo.getId());
 
         IPage<CycleArrturnRule> res = iCycleArrturnRuleService.page(page, new QueryWrapper<CycleArrturnRule>().lambda()
                 .like(MyStringUtils.isNotEmpty(bo.getBaseName()), CycleArrturnRule :: getBaseName , bo.getBaseName())
