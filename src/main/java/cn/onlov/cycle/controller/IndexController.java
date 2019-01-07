@@ -132,21 +132,7 @@ public class IndexController {
         model.addAttribute("roles", roles);
         model.addAttribute("bases", bases);
         model.addAttribute("rooms", rooms);
-
-
         return "count/index";
-    }
-
-
-    /**
-     * 安排考试
-     * @param model
-     * @return
-     */
-    @RequestMapping(value={"/examsPage",""})
-    public String examsPage(Model model){
-        model = indexSession(model);
-        return "/exam/exams";
     }
 
     private Model indexSession(Model model) {
@@ -160,20 +146,19 @@ public class IndexController {
     return  model;
     }
 
-    /**
-     * 考试详情
-     * @param model
-     * @return
-     */
-    @RequestMapping(value={"/examsDetail"})
-    public String examsDetail(Model model){
-        indexSession(model);
-        return "/exam/exams_detail";
+
+    @RequestMapping("/arrturnPlan")
+    public String arrturnPlan(Model model){
+        List<CycleBase> bases = cycleBaseService.selectAll();
+        model.addAttribute("bases", bases);
+        return "/arrturn/plan";
     }
+
+
     @RequestMapping("/basesPage")
     public String baseStationItemsPage(Model model){
     	List<CycleBase> bases = cycleBaseService.selectAll();
-    	model.addAttribute("bases", bases);;
+    	model.addAttribute("bases", bases);
         return "/base/bases";
     }
 
