@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-01-04
  */
 @Service
-public class ResultAnalyseServiceImpl extends ServiceImpl<ResultAnalyseMapper, ResultAnalyse> implements IResultAnalyseService {
+public class IResultAnalyseServiceImpl extends ServiceImpl<ResultAnalyseMapper, ResultAnalyse> implements IResultAnalyseService {
 
 }

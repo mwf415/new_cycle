@@ -28,6 +28,7 @@ public interface CyclePermissionMapper extends BaseMapper<CyclePermission> {
             )
     List<CyclePermission> loadUserPermissions(@Param("id") int id,@Param("type") int type);
 
+
     @Select("SELECT p.id,p.name,p.pid,p.url,p.type,  (CASE WHEN EXISTS(SELECT 1    FROM role_permission rp WHERE rp.pid=p.id AND rp.rid=#{rid}) " +
             "  THEN 'true' ELSE 'false' END) AS checked     FROM permission p     WHERE system_id = 3  " +
             "   AND p.id!=1     ORDER BY p.sort")

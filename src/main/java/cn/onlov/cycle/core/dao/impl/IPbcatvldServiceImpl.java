@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-01-04
  */
 @Service
-public class PbcatvldServiceImpl extends ServiceImpl<PbcatvldMapper, Pbcatvld> implements IPbcatvldService {
+public class IPbcatvldServiceImpl extends ServiceImpl<PbcatvldMapper, Pbcatvld> implements IPbcatvldService {
 
 }

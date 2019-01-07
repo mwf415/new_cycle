@@ -1,7 +1,7 @@
 package cn.onlov.cycle.core.dao.entities;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.List;
@@ -9,9 +9,8 @@ import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.Transient;
 
-import javax.persistence.Column;
-import javax.persistence.Transient;
 
 /**
  * <p>
@@ -37,7 +36,7 @@ public class CyclePermission implements Serializable {
         /**
      * url描述
      */
-         private String name;
+        private String name;
 
         /**
      * url地址
@@ -48,7 +47,7 @@ public class CyclePermission implements Serializable {
 
     private Integer type;
 
-    @Column(name = "system_id")
+    @TableField("system_id")
     private Integer systemId;
 
     private Integer sort;

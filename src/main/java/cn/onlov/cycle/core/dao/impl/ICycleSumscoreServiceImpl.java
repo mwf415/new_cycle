@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-01-04
  */
 @Service
-public class CycleSumscoreServiceImpl extends ServiceImpl<CycleSumscoreMapper, CycleSumscore> implements ICycleSumscoreService {
+public class ICycleSumscoreServiceImpl extends ServiceImpl<CycleSumscoreMapper, CycleSumscore> implements ICycleSumscoreService {
 
 }

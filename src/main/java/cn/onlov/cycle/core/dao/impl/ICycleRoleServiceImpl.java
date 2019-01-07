@@ -18,7 +18,7 @@ import java.util.List;
  * @since 2019-01-04
  */
 @Service
-public class CycleRoleServiceImpl extends ServiceImpl<CycleRoleMapper, CycleRole> implements ICycleRoleService {
+public class ICycleRoleServiceImpl extends ServiceImpl<CycleRoleMapper, CycleRole> implements ICycleRoleService {
 
 
     @Autowired

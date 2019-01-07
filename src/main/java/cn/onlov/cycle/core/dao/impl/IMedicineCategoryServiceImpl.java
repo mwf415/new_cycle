@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-01-04
  */
 @Service
-public class MedicineCategoryServiceImpl extends ServiceImpl<MedicineCategoryMapper, MedicineCategory> implements IMedicineCategoryService {
+public class IMedicineCategoryServiceImpl extends ServiceImpl<MedicineCategoryMapper, MedicineCategory> implements IMedicineCategoryService {
 
 }

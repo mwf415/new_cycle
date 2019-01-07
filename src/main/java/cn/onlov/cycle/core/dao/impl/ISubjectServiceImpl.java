@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-01-04
  */
 @Service
-public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> implements ISubjectService {
+public class ISubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> implements ISubjectService {
 
 }

@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-01-04
  */
 @Service
-public class PlainGxServiceImpl extends ServiceImpl<PlainGxMapper, PlainGx> implements IPlainGxService {
+public class IPlainGxServiceImpl extends ServiceImpl<PlainGxMapper, PlainGx> implements IPlainGxService {
 
 }

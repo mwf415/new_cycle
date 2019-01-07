@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-01-04
  */
 @Service
-public class PurviewServiceImpl extends ServiceImpl<PurviewMapper, Purview> implements IPurviewService {
+public class IPurviewServiceImpl extends ServiceImpl<PurviewMapper, Purview> implements IPurviewService {
 
 }

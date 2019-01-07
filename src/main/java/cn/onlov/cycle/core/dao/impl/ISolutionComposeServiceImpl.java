@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-01-04
  */
 @Service
-public class SolutionComposeServiceImpl extends ServiceImpl<SolutionComposeMapper, SolutionCompose> implements ISolutionComposeService {
+public class ISolutionComposeServiceImpl extends ServiceImpl<SolutionComposeMapper, SolutionCompose> implements ISolutionComposeService {
 
 }

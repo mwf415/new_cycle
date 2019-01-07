@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-01-04
  */
 @Service
-public class CycleRoomaccountServiceImpl extends ServiceImpl<CycleRoomaccountMapper, CycleRoomaccount> implements ICycleRoomaccountService {
+public class ICycleRoomaccountServiceImpl extends ServiceImpl<CycleRoomaccountMapper, CycleRoomaccount> implements ICycleRoomaccountService {
 
 }
