@@ -63,7 +63,7 @@ public class IndexController {
         		subject.login(token);
         		if(user.getIdentityId()==2)//如果是学生，跳转到学生页面
         			return "redirect:/myExams/examsPage";
-        		return "redirect:examsPage";
+        		return "redirect:usersPage";
         	}
         }catch (LockedAccountException lae) {
             request.setAttribute("msg", "用户已经被锁定不能登录，请与管理员联系！");
@@ -128,38 +128,6 @@ public class IndexController {
 
         return "count/index";
     }
-
-
-    /**
-     * 动态监控页面
-     * @return
-     */
-    @RequestMapping("/allMonitorPage")
-    public String allMonitor(Model model){
-        model= indexSession(model);
-        model.addAttribute("topTitle","全院监控");
-        return "/monitor/index";
-    }
-
-    @RequestMapping("/baseMonitorPage")
-    public String baseMonitor(Model model){
-        model= indexSession(model);
-        model.addAttribute("topTitle","基地监控");
-        return "/monitor/index";
-    }
-
-    @RequestMapping("/roomMonitorPage")
-    public String roomMonitor(Model model){
-        model.addAttribute("topTitle","科室监控");
-        return "/monitor/index";
-    }
-
-    @RequestMapping("/stationMonitorPage")
-    public String stationMonitor(Model model){
-        model.addAttribute("topTitle","站点监控");
-        return "/monitor/index";
-    }
-
 
 
     /**

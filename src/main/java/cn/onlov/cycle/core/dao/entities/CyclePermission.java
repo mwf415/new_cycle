@@ -49,7 +49,7 @@ public class CyclePermission implements Serializable {
     private Integer type;
 
     @TableField("system_id")
-    private Integer systemId;
+    private Integer systemId;  //2 规培，2  osce
 
     private Integer sort;
 
