@@ -114,9 +114,12 @@ public class IndexController {
     public String applyPage(){
         return "arrturn/rules";
     }
-    @RequestMapping(value = "/detail")
+
+    @RequestMapping(value = "/arrturnRules/detail")
     public String detail(String baseName,Model model){
          model.addAttribute("baseName",baseName);
+        List<CycleRoom> cycleRooms = cycleRoomService.selectAll();
+        model.addAttribute("rooms",cycleRooms);
         return "arrturn/rulesDetail";
     }
 
