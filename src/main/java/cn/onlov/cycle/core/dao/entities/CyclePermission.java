@@ -3,6 +3,7 @@ package cn.onlov.cycle.core.dao.entities;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import org.springframework.data.annotation.Transient;
 
 /**
  * <p>
- * 
+ * <p>
  * </p>
  *
  * @author kaifa
@@ -27,21 +28,21 @@ public class CyclePermission implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-        /**
+    /**
      * 主键
      */
-         @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-        /**
+    /**
      * url描述
      */
-        private String name;
+    private String name;
 
-        /**
+    /**
      * url地址
      */
-         private String url;
+    private String url;
 
     private Integer pid;
 
@@ -52,10 +53,10 @@ public class CyclePermission implements Serializable {
 
     private Integer sort;
 
-    @Transient
+    @TableField(exist = false)
     private String checked;//是否选中
 
-    @Transient
+    @TableField(exist = false)
     private List children;//子菜单
 
 

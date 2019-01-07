@@ -5,7 +5,7 @@ import cn.onlov.cycle.core.dao.interfaces.ICycleRoomService;
 import cn.onlov.cycle.pojo.bo.CycleRoomBo;
 import cn.onlov.cycle.service.CycleRoomService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.pagehelper.PageInfo;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -41,13 +41,13 @@ public class MyShiroRealm extends AuthorizingRealm {
         map.put("id",userId);
         List<CyclePermission> loadUserCyclePermissions = null;
         if(userId == 1){
-        	loadUserCyclePermissions = CyclePermissionService.queryAll();
+        	loadUserCyclePermissions = cyclePermissionService.queryAll();
         }else{
-        	loadUserCyclePermissions = CyclePermissionService.loadUserCyclePermissions(map);
+        	loadUserCyclePermissions = cyclePermissionService.loadUserCyclePermissions(map);
         }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         for(CyclePermission CyclePermissions: loadUserCyclePermissions){
-            info.addStringCyclePermission(CyclePermissions.getUrl());
+            info.addStringPermission(CyclePermissions.getUrl());
         }
         return info;
     }

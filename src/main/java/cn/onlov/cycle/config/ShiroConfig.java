@@ -7,6 +7,7 @@ import java.util.Map;
 import cn.onlov.cycle.core.dao.entities.CyclePermission;
 import cn.onlov.cycle.service.CyclePermissionService;
 import cn.onlov.cycle.shiro.MyShiroRealm;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -23,7 +24,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
-import com.github.pagehelper.util.StringUtil;
 
 /**
  * Created by yangqj on 2017/4/23.
@@ -103,7 +103,7 @@ public class ShiroConfig {
         List<CyclePermission> permissionList = cyclePermissionService.queryAll();
          for(CyclePermission permission: permissionList){
 
-            if (StringUtil.isNotEmpty(permission.getUrl())) {
+            if (StringUtils.isNotEmpty(permission.getUrl())) {
                 String perm = "perms[" + permission.getUrl()+ "]";
                 filterChainDefinitionMap.put(permission.getUrl(),perm);
             }

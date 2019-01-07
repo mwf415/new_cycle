@@ -2,21 +2,14 @@ package cn.onlov.cycle.service.impl;
 
 import cn.onlov.cycle.constants.Constants;
 import cn.onlov.cycle.core.dao.entities.CyclePermission;
-import cn.onlov.cycle.core.dao.entities.CycleRole;
 import cn.onlov.cycle.core.dao.entities.CycleRolePermission;
-import cn.onlov.cycle.core.dao.entities.User;
 import cn.onlov.cycle.core.dao.interfaces.ICyclePermissionService;
 import cn.onlov.cycle.core.dao.interfaces.ICycleRolePermissionService;
-import cn.onlov.cycle.core.dao.interfaces.ICycleRoleService;
-import cn.onlov.cycle.core.dao.mapper.CyclePermissionMapper;
 import cn.onlov.cycle.pojo.bo.CyclePermissionBo;
 import cn.onlov.cycle.service.CyclePermissionService;
-import cn.onlov.cycle.util.MyStringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +17,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.entity.Example.Criteria;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -34,11 +24,10 @@ import java.util.*;
 @Service
 @Transactional
 public class CyclePermissionServiceImpl  implements CyclePermissionService {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());  
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     private ICyclePermissionService iCyclePermissionService;
-    @Resource
-    private ICycleRoleService iCycleRoleService;
+
     @Autowired
     private ICycleRolePermissionService iCycleRolePermissionService;
 
@@ -65,7 +54,7 @@ public class CyclePermissionServiceImpl  implements CyclePermissionService {
 	@Cacheable(value="permissions", key="'all_menu'")
 	public List<CyclePermission> queryAllMenu() {
         QueryWrapper<CyclePermission> queryWrapper =  new QueryWrapper<>() ;
-        queryWrapper.lambda().eq(CyclePermission::getSystemId,Constants.SYSTEM_CYCLE_ID).eq(CyclePermission::getType,Constants.MENU_TYPE).orderByDesc(CyclePermission::getId);
+        queryWrapper.lambda().eq(CyclePermission::getSystemId, Constants.SYSTEM_CYCLE_ID).eq(CyclePermission::getType,Constants.MENU_TYPE).orderByDesc(CyclePermission::getId);
 		List<CyclePermission> list = iCyclePermissionService.list(queryWrapper);
 		return list;
 	}

@@ -1,6 +1,5 @@
 package cn.onlov.cycle.service.impl;
 
-import cn.onlov.cycle.core.dao.entities.CycleRolePermission;
 import cn.onlov.cycle.core.dao.entities.CycleUserRole;
 import cn.onlov.cycle.core.dao.interfaces.ICycleUserRoleService;
 import cn.onlov.cycle.service.CyclePermissionService;
@@ -9,9 +8,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import tk.mybatis.mapper.entity.Example;
-
 import javax.annotation.Resource;
 
 @Service
