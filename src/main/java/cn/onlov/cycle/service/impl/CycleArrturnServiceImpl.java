@@ -40,4 +40,15 @@ public class CycleArrturnServiceImpl  implements CycleArrturnService {
 		return res;
 	}
 
+	@Override
+	public List<CycleArrturn> getByLoginName(String loginName) {
+		QueryWrapper<CycleArrturn> queryWrapper = new QueryWrapper<>();
+		queryWrapper.lambda().eq(MyStringUtils.isNotEmpty(loginName),CycleArrturn::getLoginName,loginName)
+		.orderByAsc(CycleArrturn::getArrTurnId);
+
+		List<CycleArrturn> list = iCycleArrturnService.list(queryWrapper);
+
+		return list;
+	}
+
 }

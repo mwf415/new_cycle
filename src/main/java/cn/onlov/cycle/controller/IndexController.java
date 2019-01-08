@@ -1,19 +1,14 @@
 package cn.onlov.cycle.controller;
 
-import cn.onlov.cycle.core.dao.entities.CycleBase;
-import cn.onlov.cycle.core.dao.entities.CycleRole;
-import cn.onlov.cycle.core.dao.entities.CycleRoom;
-import cn.onlov.cycle.core.dao.entities.User;
-import cn.onlov.cycle.service.CycleBaseService;
-import cn.onlov.cycle.service.CycleRoleService;
-import cn.onlov.cycle.service.CycleRoomService;
-import cn.onlov.cycle.service.CycleUserService;
+import cn.onlov.cycle.core.dao.entities.*;
+import cn.onlov.cycle.service.*;
 import cn.onlov.cycle.util.MyStringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -154,14 +149,30 @@ public class IndexController {
         return "/arrturn/plan";
     }
 
+    @Autowired
+    private CycleArrturnService cycleArrturnService;
+
     @RequestMapping("/arrturnInfoPage")
-    public String arrturnInfoPage(Model model){
+    public String arrturnInfoPage( Model model){
+
         List<CycleBase> bases = cycleBaseService.selectAll();
         List<CycleRoom> rooms = cycleRoomService.selectAll();
         model.addAttribute("bases",bases);
         model.addAttribute("rooms",rooms);
         return "/arrturn/info";
     }
+
+    @RequestMapping("/arrturnDetailPage")
+    public String arrturnDetailPage(Model model){
+
+        List<CycleBase> bases = cycleBaseService.selectAll();
+        List<CycleRoom> rooms = cycleRoomService.selectAll();
+        model.addAttribute("bases",bases);
+        model.addAttribute("rooms",rooms);
+        return "/arrturn/userDetail";
+    }
+
+
     @RequestMapping("/basesPage")
     public String baseStationItemsPage(Model model){
     	List<CycleBase> bases = cycleBaseService.selectAll();
@@ -176,8 +187,13 @@ public class IndexController {
         return "/room/rooms";
     }
 
+
+
     @RequestMapping("/403")
     public String forbidden(){
         return "403";
     }
+
+
+
 }
