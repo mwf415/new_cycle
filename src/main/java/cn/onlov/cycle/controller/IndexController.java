@@ -154,7 +154,14 @@ public class IndexController {
         return "/arrturn/plan";
     }
 
-
+    @RequestMapping("/arrturnInfoPage")
+    public String arrturnInfoPage(Model model){
+        List<CycleBase> bases = cycleBaseService.selectAll();
+        List<CycleRoom> rooms = cycleRoomService.selectAll();
+        model.addAttribute("bases",bases);
+        model.addAttribute("rooms",rooms);
+        return "/arrturn/info";
+    }
     @RequestMapping("/basesPage")
     public String baseStationItemsPage(Model model){
     	List<CycleBase> bases = cycleBaseService.selectAll();

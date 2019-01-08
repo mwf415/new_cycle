@@ -22,6 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,7 +47,6 @@ public class ArrturnController {
 
     @Autowired
     private IUserService iUserService;
-    public static final String DATA_FROM = "yyyy-MM-dd";
 
     @RequestMapping
     public Map<String, Object> getAll(CycleArrturn cycleArrturn, String draw,
@@ -79,11 +79,8 @@ public class ArrturnController {
     }
 
 
-    @RequestMapping(value = "/add")
-    public String add(String[] loginNames, CycleArrturn cycleArrturn, String baseName, String startTime, String grade) {
-        Date startTimeData = cycleArrturn.getStartTime();//获取轮转规则
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATA_FROM);
-        String startTime1 = simpleDateFormat.format(startTimeData);
+    @RequestMapping(value = "/add" , method= RequestMethod.POST)
+    public String add(String[] loginNames, String baseName,String startTime ) {
         List<CycleArrturnRule> arrTurnRules = cycleArrturnRuleService.getByBaseName(baseName);
         for (CycleArrturnRule arrturnRule : arrTurnRules) {
             System.out.print(arrturnRule.getRoomName() + ":" + arrturnRule.getRoomSort());
@@ -100,9 +97,9 @@ public class ArrturnController {
                  */
                 Collections.shuffle(arrTurnRules);
                 User user = cycleUserService.selectByLoginName(loginName);
-                if ("" != startTime1 && null != startTime1) {
-                    startTime1 = startTime1 + " 00:00:00";
-                    Timestamp startTimeTemp = DateUtil.str2Timestamp(startTime1, null);
+                if ("" != startTime && null != startTime) {
+                    startTime = startTime + " 00:00:00";
+                    Timestamp startTimeTemp = DateUtil.str2Timestamp(startTime, null);
                     startTimeTemp.setHours(01);
                     Timestamp endTime;
                     for (CycleArrturnRule arrTurnRule : arrTurnRules) {
