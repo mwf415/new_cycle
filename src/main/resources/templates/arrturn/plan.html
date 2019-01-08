@@ -62,13 +62,12 @@
 </div>
 <!-- end #content -->
 
-
-
 <!--安排弹窗开始 主要是把某一基地未安排轮转的学生查询出来-->
 
 <div class="modal fade" id="student_select_modalIn" tabindex="-1" role="dialog" aria-labelledby="configExamLabel">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
+            <input id="baseName" type="hidden">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -104,6 +103,7 @@
 						<th>真实姓名</th>
 						<th>基地</th>
 						<th>年级</th>
+						<th>是否已安排</th>
 						<th><input type="button" onclick="select_all_studentIn(this);" class="select_all_student btn btn-default" value="全部选择"/></th>
 					</tr>
 					</thead>
@@ -212,6 +212,8 @@
 
     function studentUnPlan( obj ){
         var baseName = $(obj).attr('baseName');
+        $("#baseName").val(baseName);
+
         $('#student_select_modalIn').modal();
         studentTableIn = $('#student-datatableIn').DataTable( {
             "dom": 'rtlip',
@@ -268,11 +270,22 @@
                 { "data": "baseName" },
                 { "data": "grade" },
                 {
+                    "data": "isAt",
+                    "render": function (data, type, full, meta) {
+                        if(data==0){
+                            return '未安排';
+                        }else{
+                            return '已安排';
+                        }
+                    }
+                },
+
+                {
                     "data": "loginName",
                     "render": function (data, type, full, meta) {
                         return '<input type="button" class="select_student btn btn-default" loginName="'+data+'" onclick="select_studentIn(this)" value="选择"/>';
                     },
-                },
+                }
             ]
         } );
     };
@@ -324,12 +337,25 @@
                 }
             }
         });
-        $('#student_select_modalIn').modal('hide');
+
+        params.startTime = $('#startTime').val();
+        params.baseName =  $('#baseName').val();
         params.loginNames = loginNames;
+        if(params.startTime == "" || params.startTime == undefined || params.startTime == null){
+            return layer.msg('开始时间不能为空', function(){
+                //关闭后的操作
+            });
+        }
+
+        if(params.loginNames == "" || params.loginNames == undefined || params.loginNames == null){
+            return layer.msg('学生不能为空', function(){
+                //关闭后的操作
+            });
+        }
 
         $.ajax({
             type: "POST",
-            url:'/exams/saveConfig',
+            url:'/arrturns/add',
             data: params,
             traditional: true,//这里设置为true
             success: function(result) {
@@ -341,6 +367,7 @@
                 }
             }
         });
+        $('#student_select_modalIn').modal('hide');
         console.log(studentMap);
     }
 
