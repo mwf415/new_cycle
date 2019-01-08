@@ -49,21 +49,29 @@ public class ArrturnController {
     private IUserService iUserService;
 
     @RequestMapping
-    public Map<String, Object> getAll(CycleArrturn cycleArrturn, String draw,
+    public Map<String, Object> getAll(String loginName, String draw,
                                       @RequestParam(required = false, defaultValue = "1") int start,
                                       @RequestParam(required = false, defaultValue = "10") int length) {
         Map<String, Object> map = new HashMap<>();
-        CycleArrturnBo bo = new CycleArrturnBo();
-        BeanUtils.copyProperties(cycleArrturn, bo);
-        bo.setCurr(start);
-        bo.setPageSize(length);
-
-        IPage<CycleArrturn> pageInfo = cycleArrturnService.selectByPage(bo);
-        map.put("draw", draw);
-        map.put("recordsTotal", pageInfo.getTotal());
-        map.put("recordsFiltered", pageInfo.getTotal());
-        map.put("data", pageInfo.getRecords());
-        return map;
+        if (StringUtils.isEmpty(loginName)) {
+            map.put("draw", draw);
+            map.put("recordsTotal", 0);
+            map.put("recordsFiltered", 0);
+            map.put("data", null);
+            return map;
+        } else {
+            List<CycleArrturn> pageInfo = cycleArrturnService.getByLoginName(loginName);
+            for (CycleArrturn cycleArrturn : pageInfo) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(cycleArrturn.getTeacherName1()).append(":").append(cycleArrturn.getTeacherName2());
+                cycleArrturn.setTeacherName1(sb.toString());
+            }
+            map.put("draw", draw);
+            map.put("recordsTotal", pageInfo.size());
+            map.put("recordsFiltered", pageInfo.size());
+            map.put("data", pageInfo);
+            return map;
+        }
     }
 
 
@@ -79,8 +87,8 @@ public class ArrturnController {
     }
 
 
-    @RequestMapping(value = "/add" , method= RequestMethod.POST)
-    public String add(String[] loginNames, String baseName,String startTime ) {
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String add(String[] loginNames, String baseName, String startTime) {
         List<CycleArrturnRule> arrTurnRules = cycleArrturnRuleService.getByBaseName(baseName);
         for (CycleArrturnRule arrturnRule : arrTurnRules) {
             System.out.print(arrturnRule.getRoomName() + ":" + arrturnRule.getRoomSort());

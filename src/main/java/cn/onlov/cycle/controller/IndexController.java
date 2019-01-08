@@ -163,12 +163,12 @@ public class IndexController {
     }
 
     @RequestMapping("/arrturnDetailPage")
-    public String arrturnDetailPage(Model model){
+    public String arrturnDetailPage(String loginName ,Model model){
 
-        List<CycleBase> bases = cycleBaseService.selectAll();
         List<CycleRoom> rooms = cycleRoomService.selectAll();
-        model.addAttribute("bases",bases);
+        model.addAttribute("loginName",loginName);
         model.addAttribute("rooms",rooms);
+
         return "/arrturn/userDetail";
     }
 
