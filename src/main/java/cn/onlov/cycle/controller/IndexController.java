@@ -162,13 +162,16 @@ public class IndexController {
         return "/arrturn/info";
     }
 
+    @Autowired
+    private CycleArrturnRuleService cycleArrturnRuleService;
     @RequestMapping("/arrturnDetailPage")
     public String arrturnDetailPage(String loginName ,Model model){
 
-        List<CycleRoom> rooms = cycleRoomService.selectAll();
+        User user =cycleUserService.selectByLoginName(loginName);
+        String baseName = user.getBaseName();
+        List<CycleArrturnRule> cycleArrturnRuleList = cycleArrturnRuleService.getByBaseName(baseName);
         model.addAttribute("loginName",loginName);
-        model.addAttribute("rooms",rooms);
-
+        model.addAttribute("cycleArrturnRuleList",cycleArrturnRuleList);
         return "/arrturn/userDetail";
     }
 
