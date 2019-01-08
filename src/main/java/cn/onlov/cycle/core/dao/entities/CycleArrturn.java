@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 
@@ -94,9 +93,9 @@ public class CycleArrturn implements Serializable {
     private String trainTime;
 
     /**
-     * 批次
+     * 批次0 代表批量  1代表单个
      */
-    private String batch;
+    private String batch; // 1
 
 
 

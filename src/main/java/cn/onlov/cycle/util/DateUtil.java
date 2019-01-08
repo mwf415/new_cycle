@@ -245,4 +245,78 @@ public class DateUtil {
 	public static void main(String[] args) {
 		
 	}
+
+
+	public static Timestamp addMonth(Timestamp startTime1, double month) {
+		if(!"".equals(startTime1) && null!=startTime1 ){
+			Date startTime = startTime1;
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			String startStr = sdf.format(startTime);
+			String hh ="23";
+			String end =startStr.substring(8,10);//这里主要是截取日期，获得是16号和1号
+			Calendar endTime1 = new GregorianCalendar();
+			Date entTime;
+			endTime1.setTime(startTime);
+			if(end.equals("16")){ //如果是月中
+				if (month % 1 == 0) {// 是这个整数，小数点后面是0
+					endTime1.add(Calendar.MONTH, (int) month);
+					endTime1.set(Calendar.DAY_OF_MONTH, 15);
+					entTime = endTime1.getTime();
+					//date 转String
+					String dateStr = sdf.format(entTime);
+					StringBuilder sb = new StringBuilder(dateStr);
+					sb.replace(11, 13, hh);
+					dateStr = sb.toString();
+					// string 转Timestamp
+					Timestamp ts = new Timestamp(System.currentTimeMillis());
+					ts = Timestamp.valueOf(dateStr);
+					return ts;
+				} else {// 不是整数，小数点后面不是0
+					endTime1.add(Calendar.MONTH, (int) month);
+					endTime1.set(Calendar.DAY_OF_MONTH, endTime1.getActualMaximum(Calendar.DAY_OF_MONTH));
+					entTime = endTime1.getTime();
+					//date 转String
+					String dateStr = sdf.format(entTime);
+					StringBuilder sb = new StringBuilder(dateStr);
+					sb.replace(11, 13, hh);
+					dateStr = sb.toString();
+					// string 转Timestamp
+					Timestamp ts = new Timestamp(System.currentTimeMillis());
+					ts = Timestamp.valueOf(dateStr);
+					return ts;
+				}
+			}else{//如果是月头
+				if (month % 1 == 0) {// 是这个整数，小数点后面是0
+					endTime1.add(Calendar.MONTH, (int) month-1);
+					endTime1.set(Calendar.DAY_OF_MONTH, endTime1.getActualMaximum(Calendar.DAY_OF_MONTH));
+					entTime = endTime1.getTime();
+					//date 转String
+					String dateStr = sdf.format(entTime);
+
+					StringBuilder sb = new StringBuilder(dateStr);
+					sb.replace(11, 13, hh);
+					dateStr = sb.toString();
+					// string 转Timestamp
+					Timestamp ts = new Timestamp(System.currentTimeMillis());
+					ts = Timestamp.valueOf(dateStr);
+					return ts;
+				} else {// 不是整数，小数点后面不是0
+					endTime1.add(Calendar.MONTH, (int) month);
+					endTime1.set(Calendar.DAY_OF_MONTH, 15);
+					entTime = endTime1.getTime();
+					//date 转String
+					String dateStr = sdf.format(entTime);
+
+					StringBuilder sb = new StringBuilder(dateStr);
+					sb.replace(11, 13, hh);
+					dateStr = sb.toString();
+					// string 转Timestamp
+					Timestamp ts = new Timestamp(System.currentTimeMillis());
+					ts = Timestamp.valueOf(dateStr);
+					return ts;
+				}
+			}
+		}
+		return null;
+	}
 }

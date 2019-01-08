@@ -11,6 +11,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CycleArrturnRuleServiceImpl implements CycleArrturnRuleService {
     @Autowired
@@ -24,6 +26,14 @@ public class CycleArrturnRuleServiceImpl implements CycleArrturnRuleService {
         IPage<CycleArrturnRule> res = iCycleArrturnRuleService.page(page, new QueryWrapper<CycleArrturnRule>().lambda()
                 .like(MyStringUtils.isNotEmpty(bo.getBaseName()), CycleArrturnRule :: getBaseName , bo.getBaseName())
                 .eq(MyStringUtils.isNotEmpty(bo.getType()),CycleArrturnRule ::getType, bo.getType())
+                .orderByDesc(CycleArrturnRule::getRoomSort));
+        return res;
+    }
+
+    @Override
+    public List<CycleArrturnRule> getByBaseName(String baseName) {
+        List<CycleArrturnRule> res = iCycleArrturnRuleService.list(new QueryWrapper<CycleArrturnRule>().lambda()
+                .eq(MyStringUtils.isNotEmpty(baseName), CycleArrturnRule :: getBaseName , baseName)
                 .orderByDesc(CycleArrturnRule::getRoomSort));
         return res;
     }

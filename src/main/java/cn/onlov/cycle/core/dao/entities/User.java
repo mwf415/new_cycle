@@ -114,7 +114,7 @@ public class User implements Serializable {
      * 是否已经安排轮转
      */
          @TableField("isAt")
-    private Integer isAt;
+    private Integer isAt; // 0 代表没安排，1代表安排
 
 
 }

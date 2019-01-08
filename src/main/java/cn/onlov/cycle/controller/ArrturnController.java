@@ -1,26 +1,35 @@
 package cn.onlov.cycle.controller;
 
 import cn.onlov.cycle.core.dao.entities.CycleArrturn;
+import cn.onlov.cycle.core.dao.entities.CycleArrturnRule;
+import cn.onlov.cycle.core.dao.entities.User;
+import cn.onlov.cycle.core.dao.interfaces.ICycleArrturnRuleService;
 import cn.onlov.cycle.core.dao.interfaces.ICycleArrturnService;
+import cn.onlov.cycle.core.dao.interfaces.IUserService;
 import cn.onlov.cycle.pojo.bo.CycleArrturnBo;
 import cn.onlov.cycle.pojo.bo.CycleRoomBo;
+import cn.onlov.cycle.service.CycleArrturnRuleService;
 import cn.onlov.cycle.service.CycleArrturnService;
 import cn.onlov.cycle.service.CycleRolePermissionService;
+import cn.onlov.cycle.service.CycleUserService;
 import cn.onlov.cycle.shiro.ShiroService;
+import cn.onlov.cycle.util.DateUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.xml.crypto.Data;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/arrturns")
@@ -30,38 +39,99 @@ public class ArrturnController {
     private CycleArrturnService cycleArrturnService;
     @Resource
     private ICycleArrturnService iCycleArrturnService;
-    @Resource
-    private ShiroService shiroService;
+    @Autowired
+    private CycleArrturnRuleService cycleArrturnRuleService;
+    @Autowired
+    private CycleUserService cycleUserService;
+
+    @Autowired
+    private IUserService iUserService;
+    public static final String DATA_FROM = "yyyy-MM-dd";
 
     @RequestMapping
-    public Map<String,Object> getAll(CycleArrturn cycleArrturn, String draw,
-                                     @RequestParam(required = false, defaultValue = "1") int start,
-                                     @RequestParam(required = false, defaultValue = "10") int length){
-        Map<String,Object> map = new HashMap<>();
-        CycleArrturnBo bo  = new CycleArrturnBo();
-        BeanUtils.copyProperties(cycleArrturn,bo);
+    public Map<String, Object> getAll(CycleArrturn cycleArrturn, String draw,
+                                      @RequestParam(required = false, defaultValue = "1") int start,
+                                      @RequestParam(required = false, defaultValue = "10") int length) {
+        Map<String, Object> map = new HashMap<>();
+        CycleArrturnBo bo = new CycleArrturnBo();
+        BeanUtils.copyProperties(cycleArrturn, bo);
         bo.setCurr(start);
         bo.setPageSize(length);
 
         IPage<CycleArrturn> pageInfo = cycleArrturnService.selectByPage(bo);
-        map.put("draw",draw);
-        map.put("recordsTotal",pageInfo.getTotal());
-        map.put("recordsFiltered",pageInfo.getTotal());
+        map.put("draw", draw);
+        map.put("recordsTotal", pageInfo.getTotal());
+        map.put("recordsFiltered", pageInfo.getTotal());
         map.put("data", pageInfo.getRecords());
         return map;
     }
 
 
     @RequestMapping(value = "/update")
-    public String update(CycleArrturn permission){
-        try{
-            iCycleArrturnService.saveOrUpdate(permission);
+    public String update(CycleArrturn cycleArrturn) {
+        try {
+            iCycleArrturnService.saveOrUpdate(cycleArrturn);
             return "success";
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "fail";
         }
     }
 
 
+    @RequestMapping(value = "/add")
+    public String add(String[] loginNames, CycleArrturn cycleArrturn, String baseName, String startTime, String grade) {
+        Date startTimeData = cycleArrturn.getStartTime();//获取轮转规则
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATA_FROM);
+        String startTime1 = simpleDateFormat.format(startTimeData);
+        List<CycleArrturnRule> arrTurnRules = cycleArrturnRuleService.getByBaseName(baseName);
+        for (CycleArrturnRule arrturnRule : arrTurnRules) {
+            System.out.print(arrturnRule.getRoomName() + ":" + arrturnRule.getRoomSort());
+        }
+        Collections.shuffle(arrTurnRules);
+        for (CycleArrturnRule arrturnRule : arrTurnRules) {
+            System.out.print(arrturnRule.getRoomName() + ":" + arrturnRule.getRoomSort());
+        }
+        System.out.println();
+        if (loginNames != null && loginNames.length > 0) {
+            for (String loginName : loginNames) {
+                /**
+                 * 随机排序，一个人一个顺序
+                 */
+                Collections.shuffle(arrTurnRules);
+                User user = cycleUserService.selectByLoginName(loginName);
+                if ("" != startTime1 && null != startTime1) {
+                    startTime1 = startTime1 + " 00:00:00";
+                    Timestamp startTimeTemp = DateUtil.str2Timestamp(startTime1, null);
+                    startTimeTemp.setHours(01);
+                    Timestamp endTime;
+                    for (CycleArrturnRule arrTurnRule : arrTurnRules) {
+                        CycleArrturn arrTurn = new CycleArrturn();
+                        arrTurn.setBasename(arrTurnRule.getBaseName());
+                        arrTurn.setRoomName(arrTurnRule.getRoomName());
+                        arrTurn.setStartTime(startTimeTemp);
+                        String period = arrTurnRule.getPeriod();
+                        Double num1 = Double.valueOf(period.toString());
+                        endTime = DateUtil.addMonth(startTimeTemp, num1);
+                        arrTurn.setCheckStatus("1");  // 1 是审核通过， 0 是未审核
+                        arrTurn.setTrainTime("3"); //通用3年，不做其他设置
+                        arrTurn.setHospitalId(user.getHospitalId());
+                        arrTurn.setRealName(user.getRealName());
+                        arrTurn.setLoginName(user.getLoginName());
+                        arrTurn.setHospitalId(user.getHospitalId());
+                        arrTurn.setEndTime(endTime);
+                        arrTurn.setBatch("0"); // 批量安排
+                        arrTurn.setGrade(user.getGrade() + "");
+                        iCycleArrturnService.save(arrTurn);
+                        //为下一个循环做准备
+                        startTimeTemp = DateUtil.addday(endTime, 1);
+                    }
+                    user.setIsAt(1);
+                    iUserService.saveOrUpdate(user);
+                }
+                return "success";
+            }
+        }
+        return "fail";
+    }
 }
