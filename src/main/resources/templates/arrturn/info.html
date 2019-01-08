@@ -193,15 +193,13 @@
                     }
                 },
                 {
-                    "data":"id",
+                    "data":"loginName",
                     "render": function ( data, type, full, meta ) {
-                        var btn= "<a href='/monitor/index?examId="+data+"' target='_blank' class='btn btn-inverse'>动态监控</a>";
+                        var btn= "<a href='/arrturnDetailPage?loginName="+data+"' target='_blank' class='btn btn-info'>轮转详情</a>";
                         return btn;
                     }
                 }
-
             ]
-
         } );
     } );
 
