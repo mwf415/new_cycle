@@ -1,18 +1,22 @@
 package cn.onlov.cycle.core.dao.entities;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ * <p>
  * </p>
  *
  * @author kaifa
@@ -25,22 +29,22 @@ public class CycleActives implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-        /**
+    /**
      * 查房安排Id
      */
-         @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-        /**
+    /**
      * 创建时间
      */
-         @TableField("createTime")
+    @TableField("createTime")
     private Date createTime;
 
-        /**
+    /**
      * 查房开始时间
      */
-         @TableField("startTime")
+    @TableField("startTime")
     private Date startTime;
 
     @TableField("endTime")
@@ -49,16 +53,16 @@ public class CycleActives implements Serializable {
     @TableField("baseName")
     private String baseName;
 
-        /**
+    /**
      * 承担科室
      */
-         @TableField("roomName")
+    @TableField("roomName")
     private String roomName;
 
-        /**
+    /**
      * 病人姓名
      */
-         @TableField("sickPerson")
+    @TableField("sickPerson")
     private String sickPerson;
 
     @TableField("sickNum")
@@ -66,26 +70,26 @@ public class CycleActives implements Serializable {
 
     private String title;
 
-        /**
-     * 定义几个状态，4:入科教育 6 教学查房，7病例讨论， 8 讲座，9 操作训练,5出科考试
+    /**
+     * 定义几个状态，4:入科教育 6 教学查房，7病例讨论， 8 讲座，9 操作训练,5出科考试 ,3 其他活动
      */
-         private Integer status;
+    private Integer status;
 
     @TableField("takeTime")
     private Integer takeTime;
 
     private String address;
 
-        /**
+    /**
      * 是否完成
      */
-         @TableField("isOver")
+    @TableField("isOver")
     private String isOver;
 
-        /**
+    /**
      * 来源  1 院级，2  基地，3 科室
      */
-         private String org;
+    private String org;
 
     private String text;
 

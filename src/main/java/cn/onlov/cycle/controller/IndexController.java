@@ -190,6 +190,13 @@ public class IndexController {
         return "/room/rooms";
     }
 
+    @RequestMapping("/activesPages")
+    public String activesPages(String type ,Model model){
+        model.addAttribute("status",type);
+
+        return "/actives/actives_index";
+    }
+
 
 
     @RequestMapping("/403")
