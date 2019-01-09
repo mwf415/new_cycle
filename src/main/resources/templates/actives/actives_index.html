@@ -23,7 +23,7 @@
 	</ol>
 	<!-- end breadcrumb -->
 	<!-- begin page-header -->
-	<h1 class="page-header">轮转详情管理</h1>
+	<h1 class="page-header">教学活动</h1>
 	<!-- end page-header -->
 
 	<!-- begin row -->
@@ -37,14 +37,15 @@
                         </div>
                         <div class="panel-body" style="width: 100%">
                            <form class="form-inline">
-		                        <div class="form-group">
-		                            <label >编号:</label>
-		                            <input type="text" class="form-control" id="id-search" placeholder="编号:"/>
-		                        </div>
+
 		                        <div class="form-group">
 		                            <label >名称:</label>
-		                            <input type="text" class="form-control" id="name-search" placeholder="名称"/>
+		                            <input type="text" class="form-control" id="title-search" placeholder="名称"/>
 		                        </div>
+							   <div class="form-group">
+								   <label >老师名称:</label>
+								   <input type="text" class="form-control" id="teacherName-search" placeholder="名称"/>
+							   </div>
                                <div class="form-group">
                                    <label class="control-label">专业基地:</label>
                                    <select id="baseName-search" class="arrturnBase form-control">
@@ -67,10 +68,6 @@
                                        </#if>
                                    </select>
                                </div>
-
-
-
-
 							   <div class="form-group">
 								   <label class="control-label">开始时间:</label>
 								   <div class="input-group date form_datetime">
@@ -87,41 +84,28 @@
 									   <span class="input-group-addon">	<span class="glyphicon glyphicon-time"></span>							</span>
 								   </div>
 							   </div>
-
-
-
-
-
-		                        <div class="form-group">
-		                            <label class="control-label">身份:</label>
-									<select class="grade form-control" id="grade">
-										<option value=''>全部</option>
-										<option value='2016'>2016</option>
-										<option value='2017'>2017</option>
-										<option value='2018'>2018</option>
-										<option value='2019'>2019</option>
-										<option value='2020'>2020</option>
-										<option value='2021'>2021</option>
-										<option value='2022'>2022</option>
-										<option value='2023'>2023</option>
-									</select>
-		                        </div>
-
 		                        <button type="button"  onclick="search();" class="btn btn-primary">查询</button>
 		                    </form>
-                            <table id="datatable" class="table table-striped table-bordered">
+
+
+
+                            <table id="datatable" class="table table-striped table-bordered" width="100%">
                                 <thead>
                                     <tr>
 		                                <th>
 		                                    <input type="checkbox" class="checkall" />
 		                                </th>
 		                                <th>ID</th>
-		                                <th>用户名</th>
-		                                <th>真实姓名</th>
-		                                <th>基地</th>
-		                                <th>科室</th>
-		                                <th>年级</th>
-		                                <th>是否安排</th>
+										<th>来源</th>
+										<th>名称</th>
+										<th>时长</th>
+		                                <th>指导老师</th>
+		                                <th>地点</th>
+										<th>开始时间</th>
+										<th>学生数</th>
+										<th>是否完成</th>
+										<th>基地</th>
+										<th>科室</th>
 		                                <th>操作</th>
 		                            </tr>
                                 </thead>
@@ -175,7 +159,7 @@
                 var param = getQueryCondition(data);
                 $.ajax({
                     type: "GET",
-                    url: 'cycleActivess',
+                    url: '/cycleActives',
                     cache : false,  //禁用缓存
                     data: param,    //传入已封装的参数
                     dataType: "json",
@@ -204,24 +188,28 @@
                         return '<input type="checkbox"  class="checkchild"  value="' + data + '" />';
                     },
                 },
+
                 { "data": "id" },
-                { "data": "loginName" },
-                { "data": "realName" },
+                { "data": "org" },
+                { "data": "takeTime" },
+                { "data": "teachers" },
+                { "data": "address" },
+                { "data": "startTime" },
+                { "data": "studentsNum" },
+				{
+					"data": "isAt",
+					"render": function (data, type, full, meta) {
+						if(data==0){
+							return '未安排';
+						}else{
+							return '已安排';
+						}
+					}
+				},
                 { "data": "baseName" },
                 { "data": "roomName" },
-                { "data": "grade" },
                 {
-                    "data": "isAt",
-                    "render": function (data, type, full, meta) {
-                        if(data==0){
-                            return '未安排';
-                        }else{
-                            return '已安排';
-                        }
-                    }
-                },
-                {
-                    "data":"loginName",
+                    "data":"id",
                     "render": function ( data, type, full, meta ) {
                         var btn= "<a href='/arrturnDetailPage?loginName="+data+"' target='_blank' class='btn btn-info'>轮转详情</a>";
                         return btn;
@@ -405,9 +393,23 @@
                 }
             });
         });
-
-
-
     }
+
+
+
+    var baseList = [];
+    //初始化将测试集包含的用例存在数组里面
+    <#if bases??>
+    <#list bases as item>
+    baseList.push("${item.value}")
+    </#list>
+    </#if>
+
+    var roomList =[];
+    <#if rooms??>
+    <#list rooms as room>
+    roomList.push("${room.value}")
+    </#list>
+    </#if>
 </script>
 <#include "/common/footer.html"/>
