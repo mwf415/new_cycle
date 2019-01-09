@@ -1,17 +1,21 @@
 <#include "/common/header.html"/>
 <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
-	<link href="/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-	<link href="/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
-	<!-- ================== END PAGE LEVEL STYLE ================== -->
+<link href="/plugins/DataTables/media/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link
+		href="/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css" rel="stylesheet" />
+<link
+		href="/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<link href="/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet" />
+<!-- ================== END PAGE LEVEL STYLE ================== -->
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
-	<script src="/plugins/DataTables/media/js/jquery.dataTables.js"></script>
-	<script src="/plugins/DataTables/media/js/dataTables.bootstrap.min.js"></script>
-	<script src="/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
-	<script src="/js/apps.min.js"></script>
-	<!-- ================== END PAGE LEVEL JS ================== -->
-
-    <script src="/js/xlsx.core.min.js"></script>
-<!-- 这里是用户的列表 -->
+<script src="/plugins/DataTables/media/js/jquery.dataTables.js"></script>
+<script src="/plugins/DataTables/media/js/dataTables.bootstrap.min.js"></script>
+<script src="/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+<script src="/js/apps.min.js"></script>
+<script src="/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
+<!-- 这里是活动的列表 ，需要分为已完成和未完成  -->
 <div id="content" class="content">
 	<!-- begin breadcrumb -->
 	<ol class="breadcrumb pull-right">
@@ -63,6 +67,30 @@
                                        </#if>
                                    </select>
                                </div>
+
+
+
+
+							   <div class="form-group">
+								   <label class="control-label">开始时间:</label>
+								   <div class="input-group date form_datetime">
+									   <input class="form-control" type="text" id="startTime" name="startTime" placeholder="请选择开始时间" readonly>
+									   <span class="input-group-addon">	<span class="glyphicon glyphicon-remove"></span></span>
+									   <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>							</span>
+								   </div>
+							   </div>
+							   <div class="form-group">
+								   <label class="control-label">结束时间:</label>
+								   <div class="input-group date form_datetime">
+									   <input class="form-control" type="text" id="endTime" name="endTime" placeholder="请选择开始时间" readonly>
+									   <span class="input-group-addon">						<span class="glyphicon glyphicon-remove"></span>							</span>
+									   <span class="input-group-addon">	<span class="glyphicon glyphicon-time"></span>							</span>
+								   </div>
+							   </div>
+
+
+
+
 
 		                        <div class="form-group">
 		                            <label class="control-label">身份:</label>
@@ -147,7 +175,7 @@
                 var param = getQueryCondition(data);
                 $.ajax({
                     type: "GET",
-                    url: 'users',
+                    url: 'cycleActivess',
                     cache : false,  //禁用缓存
                     data: param,    //传入已封装的参数
                     dataType: "json",
@@ -207,30 +235,24 @@
         table.ajax.reload();
     }
 
-    var baseList = [];
-        //初始化将测试集包含的用例存在数组里面
-        <#if bases??>
-            <#list bases as item>
-                baseList.push("${item.value}")
-            </#list>
-        </#if>
-
-    var roomList =[];
-    <#if rooms??>
-    <#list rooms as room>
-    roomList.push("${room.value}")
-    </#list>
-    </#if>
 
     function getQueryCondition(data){
         var param = {};
+
         //组装排序参数
-        param.loginName = $("#id-search").val();//查询条件
-        param.realName = $("#name-search").val();//查询条件
-        param.identityId = 2 ;// 只查询学生
+        param.teacherName = $("#teacherName").val();//查询条件
+        param.org = $("#org").val();//查询条件 来源
+
         param.baseName = $("#baseName-search").val();//查询条件
         param.roomName = $("#roomName-search").val();//查询条件
-        //组装分页参数
+
+		param.roomName = $("#roomName-search").val();//查询条件
+        param.roomName = $("#roomName-search").val();//查询条件
+
+		param.roomName = $("#roomName-search").val();//查询条件
+
+		param.status = "${type!}";   //定义几个状态，4:入科教育 6 教学查房，7病例讨论， 8 讲座，9 操作训练,5出科考试 ,3 其他活动
+		//组装分页参数
         param.start = data.start;
         param.length = data.length;
         param.draw = data.draw;
