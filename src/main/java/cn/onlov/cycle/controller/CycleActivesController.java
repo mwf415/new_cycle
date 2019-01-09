@@ -9,6 +9,7 @@ import cn.onlov.cycle.core.dao.interfaces.IUserService;
 import cn.onlov.cycle.pojo.bo.CycleActivesBo;
 import cn.onlov.cycle.pojo.bo.UserBo;
 import cn.onlov.cycle.service.CycleActivesService;
+import cn.onlov.cycle.util.Constant;
 import cn.onlov.cycle.util.PasswordHelper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.BeanUtils;
@@ -26,7 +27,7 @@ import java.util.Map;
  * Created by yangqj on 2017/4/22.
  */
 @RestController
-@RequestMapping("/cycleActivess")
+@RequestMapping("/cycleActives")
 public class CycleActivesController {
     @Resource
     private ICycleActivesService iCycleActivesService;
@@ -35,6 +36,8 @@ public class CycleActivesController {
 
     @Resource
     private CycleActivesService cycleActivesService;
+
+
 
     @RequestMapping
     public Map<String, Object> getAll(CycleActives cycleActives, String draw,
@@ -48,10 +51,20 @@ public class CycleActivesController {
         bo.setPageSize(length);
 
         IPage<CycleActives> pageInfo = cycleActivesService.selectByPage(bo);
+        List<CycleActives> records = pageInfo.getRecords();
+        for (CycleActives record : records) {
+            Map<String , Object> userMap = cycleActivesService.getActivesUserByActivesId(record.getId());
+            StringBuilder teacherBuilder = (StringBuilder) userMap.get(Constant.TEACHERSSTR);//１　 是学生， 2 是老师
+            StringBuilder studentBuilder = (StringBuilder) userMap.get(Constant.STUDENTSSTR);
+            Integer studentsNum = (Integer) userMap.get(Constant.STUDENTSNUM);
+
+
+        }
+
         map.put("draw", draw);
         map.put("recordsTotal", pageInfo.getTotal());
         map.put("recordsFiltered", pageInfo.getTotal());
-        map.put("data", pageInfo.getRecords());
+        map.put("data", records);
         return map;
     }
 

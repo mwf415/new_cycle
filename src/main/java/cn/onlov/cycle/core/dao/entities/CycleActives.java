@@ -76,7 +76,7 @@ public class CycleActives implements Serializable {
     private Integer status;
 
     @TableField("takeTime")
-    private Integer takeTime;
+    private float takeTime;
 
     private String address;
 

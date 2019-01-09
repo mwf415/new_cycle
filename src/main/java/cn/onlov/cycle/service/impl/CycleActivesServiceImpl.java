@@ -9,6 +9,7 @@ import cn.onlov.cycle.pojo.bo.CycleActivesBo;
 import cn.onlov.cycle.service.CycleActivesQuestUserService;
 import cn.onlov.cycle.service.CycleActivesService;
 import cn.onlov.cycle.service.CycleUserService;
+import cn.onlov.cycle.util.Constant;
 import cn.onlov.cycle.util.MyStringUtils;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -16,6 +17,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CycleActivesServiceImpl implements CycleActivesService {
@@ -85,8 +90,6 @@ public class CycleActivesServiceImpl implements CycleActivesService {
     @Override
     public void saveOrUpdateActivesQuest(CycleActivesQuest cycleActivesQuest) {
         iCycleActivesQuestService.saveOrUpdate(cycleActivesQuest);
-
-
     }
 
     @Override
@@ -98,6 +101,51 @@ public class CycleActivesServiceImpl implements CycleActivesService {
     public void saveOrUpdate(CycleActives cycleActives) {
         cycleActives.setIsOver("1");
         iCycleActivesService.saveOrUpdate(cycleActives);
+    }
+
+    @Override
+    public Map<String,Object> getActivesUserByActivesId (Integer activesId  ){
+
+        Map< String,Object> map = new HashMap<>(); // 封装学生和老师的字符串
+        map.put("teachers",null);
+        map.put("students",null);
+        map.put("studentsNum",0);
+        QueryWrapper<CycleActivesUser> queryWrapper  = new QueryWrapper<>();
+        queryWrapper.lambda().eq(CycleActivesUser::getActivesId,activesId);
+        List<CycleActivesUser> list = iCycleActivesUserService.list(queryWrapper);
+        if(list.size()>0) {
+            for (CycleActivesUser cycleActivesUser : list) {
+                Integer identityId = cycleActivesUser.getIdentityId();
+
+                if (identityId.equals(1)) { // 如果是老师
+                    StringBuilder teacherNames = (StringBuilder) map.get(Constant.TEACHERSSTR);
+                    teacherNames.append(cycleActivesUser.getName()+"  ");
+                    map.put(Constant.TEACHERSSTR,teacherNames);
+
+                } else {  // 如果是学生
+                    StringBuilder studentsName = (StringBuilder) map.get(Constant.STUDENTSSTR);
+                    studentsName.append(cycleActivesUser.getName()+"  ");
+                    map.put(Constant.STUDENTSSTR,studentsName);
+
+                    Integer studentsNum = (Integer) map.get(Constant.STUDENTSNUM);
+                    studentsNum= studentsNum+1;
+                    map.put(Constant.STUDENTSNUM,studentsNum);
+                }
+            }
+        }
+
+        return map;
+    }
+
+
+    @Override
+    public List<CycleActivesQuestUser> getActivesQuestUserByActivesId(Integer activesId) {
+        return null;
+    }
+
+    @Override
+    public List<CycleActivesQuest> getActivesQuestByActivesId(Integer activesId) {
+        return null;
     }
 
     private void deleteActivesUserByActivesId(Integer key) {

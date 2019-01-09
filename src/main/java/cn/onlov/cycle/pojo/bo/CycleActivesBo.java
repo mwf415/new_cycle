@@ -15,4 +15,8 @@ public class CycleActivesBo extends CycleActives {
     private Date searchStartTime ; //查询条件开始时间
     private Date searchEndTime ;  // 查询添加结束时间
 
+    private int studentsNum ;// 统计学生参加的数量
+
+    private String teachers;//老师的拼接
+
 }

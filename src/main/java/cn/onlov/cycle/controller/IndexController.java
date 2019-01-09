@@ -190,9 +190,15 @@ public class IndexController {
         return "/room/rooms";
     }
 
-    @RequestMapping("/activesPages")
-    public String activesPages(String type ,Model model){
+    @RequestMapping("/activesPages" )
+    public String activesPages(Integer type ,Model model){
         model.addAttribute("status",type);
+
+        List<CycleBase> bases = cycleBaseService.selectAll();
+        List<CycleRoom> rooms = cycleRoomService.selectAll();
+        model.addAttribute("bases",bases);
+        model.addAttribute("rooms",rooms);
+
 
         return "/actives/actives_index";
     }
