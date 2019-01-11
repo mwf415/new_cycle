@@ -37,7 +37,15 @@
                         </div>
                         <div class="panel-body" style="width: 100%">
                            <form class="form-inline">
-
+							   <div class="form-group">
+								   <label class="control-label">专业基地:</label>
+								   <select id="org-search" class="arrturnBase form-control">
+									   <option value=''>全部</option>
+									   <option value='1'>院级安排</option>
+									   <option value='2'>基地安排</option>
+									   <option value='2'>科室安排</option>
+								   </select>
+							   </div>
 		                        <div class="form-group">
 		                            <label >名称:</label>
 		                            <input type="text" class="form-control" id="title-search" placeholder="名称"/>
@@ -71,7 +79,7 @@
 							   <div class="form-group">
 								   <label class="control-label">开始时间:</label>
 								   <div class="input-group date form_datetime">
-									   <input class="form-control" type="text" id="startTime" name="startTime" placeholder="请选择开始时间" readonly>
+									   <input class="form-control" type="text" id="searchStartTime" name="searchStartTime" placeholder="请选择开始时间" readonly>
 									   <span class="input-group-addon">	<span class="glyphicon glyphicon-remove"></span></span>
 									   <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>							</span>
 								   </div>
@@ -79,13 +87,23 @@
 							   <div class="form-group">
 								   <label class="control-label">结束时间:</label>
 								   <div class="input-group date form_datetime">
-									   <input class="form-control" type="text" id="endTime" name="endTime" placeholder="请选择开始时间" readonly>
-									   <span class="input-group-addon">						<span class="glyphicon glyphicon-remove"></span>							</span>
-									   <span class="input-group-addon">	<span class="glyphicon glyphicon-time"></span>							</span>
+									   <input class="form-control" type="text" id="searchEndTime" name="searchEndTime" placeholder="请选择开始时间" readonly>
+									   <span class="input-group-addon">						<span class="glyphicon glyphicon-remove"></span></span>
+									   <span class="input-group-addon">	<span class="glyphicon glyphicon-time"></span></span>
 								   </div>
 							   </div>
 		                        <button type="button"  onclick="search();" class="btn btn-primary">查询</button>
-		                    </form>
+
+							   <@shiro.hasPermission name="/bases/delete">
+								   <button type="button"  onclick="delByID();" class="btn btn-info" style="float: right; margin-right: 1px;">删除</button>
+							   </@shiro.hasPermission>
+								<@shiro.hasPermission name="/bases/add">
+								<button type="button"  onclick="$('#addBase').modal();" class="btn btn-info" style="float: right; margin-right: 1px;">新增</button>
+							</@shiro.hasPermission>
+						<@shiro.hasPermission name="/bases/add">
+						<button type="button"  onclick="$('#addBase').modal();" class="btn btn-info" style="float: right; margin-right: 1px;">修改</button>
+					</@shiro.hasPermission>
+						</form>
 
 
 
@@ -95,7 +113,6 @@
 		                                <th>
 		                                    <input type="checkbox" class="checkall" />
 		                                </th>
-		                                <th>ID</th>
 										<th>来源</th>
 										<th>名称</th>
 										<th>时长</th>
@@ -121,6 +138,40 @@
             <!-- end row -->
 </div>
 <!-- end #content -->
+
+
+
+
+<!--添加教学活动-->
+<div class="modal fade" id="addBase" tabindex="-1" role="dialog" aria-labelledby="addroleLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="addroleLabel">添加专业基地</h4>
+			</div>
+			<div class="modal-body">
+				<form id="baseForm">
+					<div class="form-group">
+						<label  class="control-label">基地编号:</label>
+						<input type="text" class="form-control" name="baseNum" id="baseNum" placeholder="请输入基地编号"/>
+						<span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="必填"><i></i></span>
+					</div>
+					<div class="form-group">
+						<label  class="control-label">基地名称:</label>
+						<input type="text" class="form-control" name="value" id="value" placeholder="请输入基地名称"/>
+						<span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="必填"><i></i></span>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" onclick="addBase();" class="btn btn-primary">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--/添加专业基地-->
 
 
 
@@ -188,9 +239,19 @@
                         return '<input type="checkbox"  class="checkchild"  value="' + data + '" />';
                     },
                 },
-
                 { "data": "id" },
-                { "data": "org" },
+                {
+                    "data": "org",
+                    "render": function (data,  full, meta) {
+						if(data=="1"){
+							return '院级安排';
+						}else if(data=="2"){
+							return '基地安排';
+						}else {
+							return '科室安排';
+						}
+					}
+				},
                 { "data": "takeTime" },
                 { "data": "teachers" },
                 { "data": "address" },
@@ -200,9 +261,9 @@
 					"data": "isAt",
 					"render": function (data, type, full, meta) {
 						if(data==0){
-							return '未安排';
+							return '未完成';
 						}else{
-							return '已安排';
+							return '已完成';
 						}
 					}
 				},
@@ -211,11 +272,23 @@
                 {
                     "data":"id",
                     "render": function ( data, type, full, meta ) {
-                        var btn= "<a href='/arrturnDetailPage?loginName="+data+"' target='_blank' class='btn btn-info'>轮转详情</a>";
+                        var btn= "<a href='/activesDetailPage?activesIdParm="+data+"' target='_blank' class='btn btn-inverse'>查看详情</a>";
+                        btn +=  "<a href='/arrturnDetailPage?loginName="+data+"' target='_blank' class='btn btn-info'>资料下载</a>";
                         return btn;
                     }
                 }
+            ],
+
+            'columnDefs': [
+                {"sClass": "text-center", 'targets': '_all'},
+                {
+                    "targets": [-6],
+                    "render": function ( data, type, full, meta ) {
+                        return DateUtil.dateToStr("yyyy-MM-dd hh:mm", new Date(data));
+                    }
+                }
             ]
+
         } );
     } );
 
@@ -226,20 +299,17 @@
 
     function getQueryCondition(data){
         var param = {};
-
         //组装排序参数
-        param.teacherName = $("#teacherName").val();//查询条件
-        param.org = $("#org").val();//查询条件 来源
-
+        param.org = $("#org-search").val();//查询条件 来源
         param.baseName = $("#baseName-search").val();//查询条件
         param.roomName = $("#roomName-search").val();//查询条件
+		param.title = $("#title-search").val();//查询条件
+        param.teacherName = $("#teacherName-search").val();//查询条件
+//
+		param.searchStartTime = $("#searchStartTime").val();//查询条件
+		param.searchEndTime = $("#searchEndTime").val();//查询条件
 
-		param.roomName = $("#roomName-search").val();//查询条件
-        param.roomName = $("#roomName-search").val();//查询条件
-
-		param.roomName = $("#roomName-search").val();//查询条件
-
-		param.status = "${type!}";   //定义几个状态，4:入科教育 6 教学查房，7病例讨论， 8 讲座，9 操作训练,5出科考试 ,3 其他活动
+		param.status = "${status!}";   //定义几个状态，4:入科教育 6 教学查房，7病例讨论， 8 讲座，9 操作训练,5出科考试 ,3 其他活动
 		//组装分页参数
         param.start = data.start;
         param.length = data.length;
@@ -260,41 +330,6 @@
         return false;
     }
 
-    //弹出选择角色的框
-    function allotRole(){
-        var id = $(".checkchild:checked").val();
-        if ($(".checkchild:checked").length < 1)
-        {
-            layer.msg('请选择一条数据');
-            return;
-        }
-        if ($(".checkchild:checked").length > 1)
-        {
-            layer.msg('一次只能修改一条数据');
-            return;
-        }
-        $.ajax({
-            async:false,
-            type : "POST",
-            data:{uid:id},
-            url: 'roles/rolesWithSelected',
-            dataType:'json',
-            success: function(data){
-                $("#boxRoleForm").empty();
-                var htm = "<input type='hidden' name='uid' value='"+id+"'>";
-                for(var i=0;i<data.length;i++){
-                    htm += "<div class='checkbox'><label><input type='checkbox' name='rids' value='"+data[i].roleId+"'";
-                    if(data[i].selected==1){
-                        htm += " checked='checked'";
-                    }
-                    htm +="/>"+data[i].roleName+"</label></div>";
-                }
-                $("#boxRoleForm").append(htm);
-            }
-        });
-
-        $('#selectRole').modal();
-    }
 
     //保存角色的选择
     function saveUserRoles() {

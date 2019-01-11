@@ -119,14 +119,22 @@ public class CycleActivesServiceImpl implements CycleActivesService {
 
                 if (identityId.equals(1)) { // 如果是老师
                     StringBuilder teacherNames = (StringBuilder) map.get(Constant.TEACHERSSTR);
-                    teacherNames.append(cycleActivesUser.getName()+"  ");
+                    if(null!= teacherNames){
+                        teacherNames.append(cycleActivesUser.getName()+"  ");
+                    }else {
+                        teacherNames = new StringBuilder(cycleActivesUser.getName());
+                    }
                     map.put(Constant.TEACHERSSTR,teacherNames);
 
                 } else {  // 如果是学生
                     StringBuilder studentsName = (StringBuilder) map.get(Constant.STUDENTSSTR);
-                    studentsName.append(cycleActivesUser.getName()+"  ");
-                    map.put(Constant.STUDENTSSTR,studentsName);
+                    if(null!= studentsName){
+                        studentsName.append(cycleActivesUser.getName()+"  ");
+                    }else {
+                        studentsName = new StringBuilder(cycleActivesUser.getName());
+                    }
 
+                    map.put(Constant.STUDENTSSTR,studentsName);
                     Integer studentsNum = (Integer) map.get(Constant.STUDENTSNUM);
                     studentsNum= studentsNum+1;
                     map.put(Constant.STUDENTSNUM,studentsNum);

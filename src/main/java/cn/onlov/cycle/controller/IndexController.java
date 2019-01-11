@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yangqj on 2017/4/21.
@@ -198,11 +199,18 @@ public class IndexController {
         List<CycleRoom> rooms = cycleRoomService.selectAll();
         model.addAttribute("bases",bases);
         model.addAttribute("rooms",rooms);
-
-
         return "/actives/actives_index";
     }
 
+
+    @Autowired
+    private CycleActivesUserService cycleActivesUserService;
+
+    @RequestMapping("/activesDetailPage" )
+    public String activesDetailPage(String activesIdParm ,Model model){
+        model.addAttribute("activesIdParm",activesIdParm);
+        return "/actives/actives_detail";
+    }
 
 
     @RequestMapping("/403")

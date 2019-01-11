@@ -85,6 +85,10 @@
 							    <@shiro.hasPermission name="/users/add">
 		                       		<button type="button"  onclick="$('#addUser').modal();" class="btn btn-info" style="float: right; margin-right: 1px;">新增</button>
 							    </@shiro.hasPermission>
+
+                                <@shiro.hasPermission name="/users/add">
+                                    <button type="button"  onclick="$('#addUser').modal();" class="btn btn-info" style="float: right; margin-right: 1px;">新增</button>
+                                </@shiro.hasPermission>
 		                    </form>
                             <table id="datatable" class="table table-striped table-bordered">
                                 <thead>
