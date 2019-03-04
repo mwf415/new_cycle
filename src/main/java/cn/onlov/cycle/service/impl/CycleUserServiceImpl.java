@@ -36,12 +36,14 @@ public class CycleUserServiceImpl implements CycleUserService {
                 .like(MyStringUtils.isNotEmpty(bo.getRealName()), User :: getRealName , bo.getRealName())
                 .eq(MyStringUtils.isNotEmpty(bo.getBaseName()),User :: getBaseName, bo.getBaseName())
                 .eq(MyStringUtils.isNotEmpty(bo.getRoomName()),User::getRoomName,bo.getRoomName())
-                .eq(MyStringUtils.isNotEmpty(bo.getGrade()),User::getGrade, bo.getGrade())
-                .eq(MyStringUtils.isNotEmpty(bo.getIdentityId()),User::getIdentityId,bo.getIdentityId())
-                .eq(MyStringUtils.isNotEmpty(bo.getIsAt()),User::getIsAt,bo.getIsAt())
+//                .eq(MyStringUtils.isNotEmpty(bo.getGrade()),User::getGrade, bo.getGrade())
+//                .eq(MyStringUtils.isNotEmpty(bo.getIdentityId()),User::getIdentityId,bo.getIdentityId())
+//                .eq(MyStringUtils.isNotEmpty(bo.getIsAt()),User::getIsAt,bo.getIsAt())
                 .orderByDesc(User::getId));
         return res;
     }
+
+
 
 
 
