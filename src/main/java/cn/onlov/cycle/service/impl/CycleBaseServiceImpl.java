@@ -13,6 +13,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisHash;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,6 +40,7 @@ public class CycleBaseServiceImpl  implements CycleBaseService {
     }
 
     @Override
+    @Cacheable(value = "bases", key = "'all_base'")
     public List<CycleBase> selectAll() {
         List<CycleBase> res = iCycleBaseService.list( new QueryWrapper<CycleBase>().lambda().orderByDesc(CycleBase::getId));
         return res;

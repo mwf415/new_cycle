@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
@@ -38,6 +39,7 @@ public class CycleRoomServiceImpl  implements CycleRoomService {
 }
 	
 	@Override
+	@Cacheable(value = "rooms", key = "'all_room'")
 	public List<CycleRoom> selectAll() {
 
 		QueryWrapper<CycleRoom> queryWrapper = new QueryWrapper<>();
